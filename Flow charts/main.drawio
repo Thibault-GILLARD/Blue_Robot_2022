@@ -1,6 +1,6 @@
 <mxfile host="65bd71144e">
     <diagram id="f-4OcCWED6R6jc--z0yt" name="Page-1">
-        <mxGraphModel dx="1033" dy="800" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+        <mxGraphModel dx="488" dy="378" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
             <root>
                 <mxCell id="0"/>
                 <mxCell id="1" parent="0"/>
@@ -32,7 +32,7 @@
                 <mxCell id="11" value="yes" style="edgeStyle=none;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;fontSize=13;" edge="1" parent="1" source="7" target="9">
                     <mxGeometry relative="1" as="geometry"/>
                 </mxCell>
-                <mxCell id="23" value="&lt;font color=&quot;rgba(0, 0, 0, 0)&quot;&gt;no&lt;/font&gt;" style="edgeStyle=none;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;fontSize=12;fontColor=#FFFFFF;" edge="1" parent="1" source="7" target="22">
+                <mxCell id="ewLmPxnR2DQE1yZnhy_t-36" value="yes" style="edgeStyle=none;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;fontSize=12;fontColor=default;" edge="1" parent="1" source="7" target="22">
                     <mxGeometry relative="1" as="geometry"/>
                 </mxCell>
                 <mxCell id="7" value="&lt;font style=&quot;font-size: 13px&quot;&gt;we are storing too many orders (&amp;gt;90)&amp;nbsp;and &lt;br&gt;we started to process them&lt;/font&gt;" style="rhombus;whiteSpace=wrap;html=1;strokeWidth=2;fillColor=#f0a30a;fontColor=#000000;strokeColor=#BD7000;" vertex="1" parent="1">
@@ -168,7 +168,7 @@
                 <mxCell id="T50aEVcokCgWjYUZ_jQx-55" value="inMove = True" style="whiteSpace=wrap;html=1;fontColor=#ffffff;rounded=0;shadow=0;labelBackgroundColor=none;fillColor=#a0522d;strokeColor=#6D1F00;" vertex="1" parent="1">
                     <mxGeometry x="676.0649999999999" y="1360" width="120" height="60" as="geometry"/>
                 </mxCell>
-                <mxCell id="T50aEVcokCgWjYUZ_jQx-64" value="yes" style="edgeStyle=none;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;fontSize=12;fontColor=#FFFFFF;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="T50aEVcokCgWjYUZ_jQx-59" target="4">
+                <mxCell id="T50aEVcokCgWjYUZ_jQx-64" style="edgeStyle=none;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;fontSize=12;fontColor=#FFFFFF;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="T50aEVcokCgWjYUZ_jQx-59" target="4">
                     <mxGeometry relative="1" as="geometry">
                         <mxPoint x="80" y="120" as="targetPoint"/>
                         <Array as="points">
@@ -176,11 +176,6 @@
                             <mxPoint x="80" y="1720"/>
                             <mxPoint x="80" y="130"/>
                         </Array>
-                    </mxGeometry>
-                </mxCell>
-                <mxCell id="ewLmPxnR2DQE1yZnhy_t-34" value="yes" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=12;fontColor=default;" vertex="1" connectable="0" parent="T50aEVcokCgWjYUZ_jQx-64">
-                    <mxGeometry x="-0.1799" relative="1" as="geometry">
-                        <mxPoint as="offset"/>
                     </mxGeometry>
                 </mxCell>
                 <mxCell id="T50aEVcokCgWjYUZ_jQx-59" value="Run the steppers" style="whiteSpace=wrap;html=1;fontColor=#ffffff;rounded=0;shadow=0;labelBackgroundColor=none;fillColor=#6d8764;strokeColor=#3A5431;" vertex="1" parent="1">
