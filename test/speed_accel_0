@@ -1,0 +1,142 @@
+/* 
+  if (Axis[1].Steps > Axis[2].Steps && Axis[1].Steps > Axis[3].Steps)
+  {
+      ratio1 = Axis[2].Steps/Axis[1].Steps;
+      ratio2 = Axis[3].Steps/Axis[1].Steps;
+
+      steppers[1]->setMaxSpeed(Axis[1].ratio_speed*General_speed);//max
+      steppers[1]->setAcceleration(Axis[1].ratio_speed*General_acc);//max
+      steppers[2]->setAcceleration(Axis[2].ratio_speed*General_acc*ratio1);
+      steppers[3]->setAcceleration(Axis[3].ratio_speed*General_acc*ratio2);
+      steppers[2]->setMaxSpeed(Axis[2].ratio_speed*General_speed*ratio1);
+      steppers[3]->setMaxSpeed(Axis[3].ratio_speed*General_speed*ratio2);
+      gp1 = Axis[2].ratio_speed*General_speed*ratio1;
+      gp2 = Axis[3].ratio_speed*General_speed*ratio2;
+
+      Serial.println(String("0")+String(angle1, 2)+String(",")+ String(angle2, 2)+String(",")+ String(angle3, 2)
+      +String("|||")+String(Axis[1].Steps, 2)+String(",")+ String(Axis[2].Steps, 2)+String(",")+ String(Axis[3].Steps, 2)
+      +String("||")+String(gp1, 2)+String(",")+ String(gp2, 2)
+      +String("||")+String(ratio1, 2)+String(",")+ String(ratio2, 2));
+  }
+  else if (Axis[2].Steps > Axis[1].Steps && Axis[2].Steps > Axis[3].Steps)
+  {
+      ratio1 = Axis[1].Steps/Axis[2].Steps;
+      ratio2 = Axis[3].Steps/Axis[2].Steps;
+
+      steppers[2]->setMaxSpeed(Axis[2].ratio_speed*General_speed);//max
+      steppers[2]->setAcceleration(Axis[2].ratio_speed*General_acc);//max
+      steppers[1]->setAcceleration(Axis[1].ratio_speed*General_acc*ratio1);
+      steppers[3]->setAcceleration(Axis[3].ratio_speed*General_acc*ratio2);
+      steppers[1]->setMaxSpeed(Axis[1].ratio_speed*General_speed*ratio1);
+      steppers[3]->setMaxSpeed(Axis[3].ratio_speed*General_speed*ratio2);
+      gp1 = Axis[1].ratio_speed*General_speed*ratio1;
+      gp2 = Axis[3].ratio_speed*General_speed*ratio2;
+
+      Serial.println(String("1")+String(angle1, 2)+String(",")+ String(angle2, 2)+String(",")+ String(angle3, 2)
+      +String("|||")+String(Axis[1].Steps, 2)+String(",")+ String(Axis[2].Steps, 2)+String(",")+ String(Axis[3].Steps, 2)
+      +String("||")+String(gp1, 2)+String(",")+ String(gp2, 2)
+      +String("||")+String(ratio1, 2)+String(",")+ String(ratio2, 2));
+  }
+  else if (Axis[3].Steps > Axis[1].Steps && Axis[3].Steps > Axis[2].Steps ) 
+  {
+      ratio1 = Axis[1].Steps/Axis[3].Steps;
+      ratio2 = Axis[2].Steps/Axis[3].Steps;
+
+      steppers[3]->setMaxSpeed(General_speed);//max
+      steppers[3]->setAcceleration(General_acc);//max
+      steppers[1]->setAcceleration(ratio_speed_1*General_acc*ratio1);
+      steppers[2]->setAcceleration(ratio_speed_2*General_acc*ratio2);   
+      steppers[1]->setMaxSpeed(ratio_speed_1*General_speed*ratio1);
+      steppers[2]->setMaxSpeed(ratio_speed_2*General_speed*ratio2);
+      gp1 = ratio_speed_1*General_speed*ratio1;
+      gp2 = ratio_speed_2*General_speed*ratio2;
+
+      Serial.println(String("2")+String(angle1, 2)+String(",")+ String(angle2, 2)+String(",")+ String(angle3, 2)
+      +String("|||")+String(Axis[1].Steps, 2)+String(",")+ String(Axis[2].Steps, 2)+String(",")+ String(Axis[3].Steps, 2)
+      +String("||")+String(gp1, 2)+String(",")+ String(gp2, 2)
+      +String("||")+String(ratio1, 2)+String(",")+ String(ratio2, 2));
+        
+  }
+  else
+  {
+    steppers[1]->setMaxSpeed(General_speed);steppers[1]->setAcceleration(General_acc);
+    steppers[2]->setMaxSpeed(General_speed);steppers[2]->setAcceleration(General_acc);
+    steppers[3]->setMaxSpeed(General_speed);steppers[3]->setAcceleration(General_acc);
+
+    Serial.println(String("3")+String(angle1, 2)+String(",")+ String(angle2, 2)+String(",")+ String(angle3, 2)
+    +String("|||")+String(Axis[1].Steps, 2)+String(",")+ String(Axis[2].Steps, 2)+String(",")+ String(Axis[3].Steps, 2)
+    +String("||")+String(gp1, 2)+String(",")+ String(gp2, 2)
+    +String("||")+String(ratio1, 2)+String(",")+ String(ratio2, 2));
+  }   */  
+
+   F32 angle1;
+  F32 angle2;
+  F32 angle3;
+
+  F32 gp1 = 1;
+  F32 gp2 = 1;
+
+  int max_mvmnt = 0;
+  int to_adapte_1 = 0;
+  int to_adapte_2 = 0;
+
+  if (elbowType == -1)
+  {
+    angle1 = S*(180/Pi);
+    angle2 = E*(180/Pi);
+  }else
+  {
+    angle1 = -((S+2*Q)*180/Pi - 130.03844822836373);
+    angle2 = (E*(180/Pi)) - 80.09454688220181 + angle1 ;//80.09454688220181
+  }
+  angle3 = Target.W;
+
+  Axis[1].Steps = abs(Axis[1].curent_position-angle1);
+  Axis[2].Steps = abs(Axis[2].curent_position-angle2);
+  Axis[3].Steps = abs(Axis[3].curent_position-angle3);
+
+  //Serial.println(String(angle1, 2)+String(",")+ String(angle2, 2)+String(",")+ String(angle3, 2)+String("|||")+String(Axis[1].Steps, 2)+String(",")+ String(Axis[2].Steps, 2)+String(",")+ String(Axis[3].Steps, 2));
+ 
+  if (Axis[1].Steps > Axis[2].Steps && Axis[1].Steps > Axis[3].Steps)
+  {
+    max_mvmnt = 1;
+    to_adapte_1 = 2;
+    to_adapte_2 = 3;
+  }
+  else if (Axis[2].Steps > Axis[1].Steps && Axis[2].Steps > Axis[3].Steps)
+  {
+    max_mvmnt = 2;
+    to_adapte_1 = 1;
+    to_adapte_2 = 3;
+
+  }
+  else if (Axis[3].Steps > Axis[1].Steps && Axis[3].Steps > Axis[2].Steps )
+  {
+    max_mvmnt = 3;
+    to_adapte_1 = 1;
+    to_adapte_2 = 2;
+  }
+  else
+  {
+    steppers[1]->setMaxSpeed(General_speed);steppers[1]->setAcceleration(General_acc);
+    steppers[2]->setMaxSpeed(General_speed);steppers[2]->setAcceleration(General_acc);
+    steppers[3]->setMaxSpeed(General_speed);steppers[3]->setAcceleration(General_acc);
+    Serial.println(String("hhhhhhhh"));
+  }
+  ratio1 = Axis[to_adapte_1].Steps/Axis[max_mvmnt].Steps;
+  ratio2 = Axis[to_adapte_2].Steps/Axis[max_mvmnt].Steps;
+
+  steppers[max_mvmnt]->setMaxSpeed(Axis[max_mvmnt].ratio_speed*General_speed);//max
+  steppers[max_mvmnt]->setAcceleration(Axis[max_mvmnt].ratio_speed*General_acc);//max
+  steppers[to_adapte_1]->setAcceleration(Axis[to_adapte_1].ratio_speed*General_acc*ratio1);
+  steppers[to_adapte_2]->setAcceleration(Axis[to_adapte_2].ratio_speed*General_acc*ratio2);   
+  steppers[to_adapte_1]->setMaxSpeed(Axis[to_adapte_1].ratio_speed*General_speed*ratio1);
+  steppers[to_adapte_2]->setMaxSpeed(Axis[to_adapte_2].ratio_speed*General_speed*ratio2);
+
+  gp1 = Axis[to_adapte_1].ratio_speed*General_speed*ratio1;
+  gp2 = Axis[to_adapte_2].ratio_speed*General_speed*ratio2; 
+
+  Serial.println(String(max_mvmnt, 2)+String(",")+String(angle1, 2)+String(",")+ String(angle2, 2)+String(",")+ String(angle3, 2)
+  +String("|||")+String(Axis[1].Steps, 2)+String(",")+ String(Axis[2].Steps, 2)+String(",")+ String(Axis[3].Steps, 2)
+  +String("||")+String(gp1, 2)+String(",")+ String(gp2, 2)
+  +String("||")+String(ratio1, 2)+String(",")+ String(ratio2, 2));
