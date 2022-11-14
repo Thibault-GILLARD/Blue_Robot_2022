@@ -127,7 +127,7 @@ void read_and_extract(String content)
   {
     int index = content.indexOf(",");              // locate the first ","
     data[i] = content.substring(0, index).c_str(); // Extract the string from start to the ","
-    content = content.substring(index + 1);        // Remove the number from the string
+    content = content.substring(index + 1);        // Remove what was before the "," from the string
   }
 }
 
