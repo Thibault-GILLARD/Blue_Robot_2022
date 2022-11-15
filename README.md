@@ -70,7 +70,50 @@ Each part of the code is strongly explained and commented to allow a quick under
 Also several **flowchats** have been created to describe the different functions of the code. 
 The .drawio files are also available so you can modify or adapt them for your project.
 
-https://user-images.githubusercontent.com/117235512/201827715-498f13ce-a90b-482b-a64e-b92b25c59737.mp4
+:eyes:  [Blue_Robot_2022/Flow charts/](https://github.com/Thibault-GILLARD/Blue_Robot_2022/tree/develop/Flow%20charts)
+<div align="center">
+  <a href="https://github.com/Thibault-GILLARD/Blue_Robot_2022/tree/develop/Flow%20charts">
+    <img src="https://github.com/Thibault-GILLARD/Blue_Robot_2022/blob/develop/Flow%20charts/read_and_extract().png" width="197" height="411">
+  </a>
+</div>
 
+<!-- GETTING STARTED -->
+## Getting Started
+
+This is an example of how you may give instructions on setting up your project locally.
+To get a local copy up and running follow these simple example steps.
+
+### Prerequisites
+
+This is an example of how to list things you need to use the software and how to install them.
+* npm
+  ```sh
+  npm install npm@latest -g
+  ```
+
+### Installation
+
+_Below is an example of how you can instruct your audience on installing and setting up your app. This template doesn't rely on any external dependencies or services._
+
+1. Get a free API Key at [https://example.com](https://example.com)
+2. Clone the repo
+   ```sh
+   git clone https://github.com/your_username_/Project-Name.git
+   ```
+3. Install NPM packages
+   ```sh
+   npm install
+   ```
+4. Enter your API in `config.js`
+   ```js
+   const API_KEY = 'ENTER YOUR API';
+   ```
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+<!-- USAGE EXAMPLES -->
+## USAGE EXAMPLES
+
+https://user-images.githubusercontent.com/117235512/201827715-498f13ce-a90b-482b-a64e-b92b25c59737.mp4
 
 
