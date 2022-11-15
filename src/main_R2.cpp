@@ -75,7 +75,7 @@ void loop()
       Serial_counter = 0;
       Serial_counter_use = 0;
     }
-    Serial_input[Serial_counter][0] = SerialUSB.readString();
+    Serial_input[Serial_counter][0] = SerialUSB.readStringUntil('\n');
     Serial_counter += 1;
   }
 
@@ -123,6 +123,9 @@ void st_run()// run the steppers...
 */
 void read_and_extract(String content)
 {
+  // Remove carriage return and line feed 
+  content.replace("\r", "");
+  content.replace("\n", "");
   for (U8 i = 0; i < 4; i++) // 4 is the maximum number of argument that can be sent in single command separated by commas
   {
     int index = content.indexOf(",");              // locate the first ","
