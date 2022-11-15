@@ -2,7 +2,6 @@
 
 #include <AccelStepper.h> // AccelStepper library
 
-#include "Type.hpp"
 #include "USB_device_R.h"
 
 U8 volatile Curent_Offset = 7; // Driver[7] - initilised to the max microstepping value (25600)

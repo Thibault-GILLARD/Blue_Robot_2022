@@ -3,7 +3,7 @@
 #include <AccelStepper.h> // AccelStepper library
 #include <Arduino.h>	  // Arduino library
 
-#include "Type.hpp"
+
 #include "USB_device_R.h"
 #include "Pin_Define_BR.hpp"
 #include "Robot_Define_BR.hpp"
