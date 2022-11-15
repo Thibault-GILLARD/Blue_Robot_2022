@@ -25,6 +25,11 @@
   </a>
 </div>
 
+The SCARA robot, which stands for Selective Compliance Assembly Robot Arm, is a type of articulated robot arm that is commonly used in industrial and manufacturing settings. 
+
+<!-- ABOUT THE PROJECT -->
+## About The Project
+
 This is the second version of the source code developed for the robot.
 
 #### This one fulfils two main needs: :
@@ -45,11 +50,70 @@ when operating on the AVR UC3 Software Framework.
 Additionally, the arduino libraries are widely used and regularly improved. 
 
 The modification of the new code can be done on simple tools such as 
-the arduino ide or platformIO on VScode (recommended).
+the [arduino IDE](https://www.arduino.cc/en/software) or [platformIO on VScode](https://platformio.org/install/ide?install=vscode) (recommended).
 
-The SCARA robot, which stands for Selective Compliance Assembly Robot Arm, is a type of articulated robot arm that is commonly used in industrial and manufacturing settings. 
+<!-- Code explanations -->
+## Code explanations :microscope:
+Each part of the code is strongly explained and commented to allow a quick understanding of it. 
+* Ex :	  
+  ```text 
+  /*
+  void speed_adapt(int max_mvmnt, int to_adapte_1, int to_adapte_2):
+  1. First, we calculate the ratio between the axis to adapt and the axis of maximum movement (max_mvmnt).
+  2. Next, we calculate the maximum and acceleration speeds for the axis of maximum movement (max_mvmnt),
+   and for the other two axes (to_adapte_1 and to_adapte_2).
+  3. We multiply the speed and acceleration ratios by the ratio calculated in step 1, and we set the new
+   speed and acceleration for the two axes to adapt.
+  */
+
+  ```
+Also several **flowchats** have been created to describe the different functions of the code. 
+The .drawio files are also available so you can modify or adapt them for your project.
+
+:eyes:  [Blue_Robot_2022/Flow charts/](https://github.com/Thibault-GILLARD/Blue_Robot_2022/tree/develop/Flow%20charts)
+<div align="center">
+  <a href="https://github.com/Thibault-GILLARD/Blue_Robot_2022/tree/develop/Flow%20charts">
+    <img src="https://github.com/Thibault-GILLARD/Blue_Robot_2022/blob/develop/Flow%20charts/read_and_extract().png" width="197" height="411">
+  </a>
+</div>
+
+<!-- GETTING STARTED -->
+## Getting Started
+
+This is an example of how you may give instructions on setting up your project locally.
+To get a local copy up and running follow these simple example steps.
+
+### Prerequisites
+
+This is an example of how to list things you need to use the software and how to install them.
+* npm
+  ```sh
+  npm install npm@latest -g
+  ```
+
+### Installation
+
+_Below is an example of how you can instruct your audience on installing and setting up your app. This template doesn't rely on any external dependencies or services._
+
+1. Get a free API Key at [https://example.com](https://example.com)
+2. Clone the repo
+   ```sh
+   git clone https://github.com/your_username_/Project-Name.git
+   ```
+3. Install NPM packages
+   ```sh
+   npm install
+   ```
+4. Enter your API in `config.js`
+   ```js
+   const API_KEY = 'ENTER YOUR API';
+   ```
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+<!-- USAGE EXAMPLES -->
+## USAGE EXAMPLES
 
 https://user-images.githubusercontent.com/117235512/201827715-498f13ce-a90b-482b-a64e-b92b25c59737.mp4
-
 
 
