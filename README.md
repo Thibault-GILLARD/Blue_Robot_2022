@@ -1,8 +1,28 @@
-# SCARA-Robot, Blue_Robot_2022
+<!-- PROJECT LOGO -->
+<br />
+<div align="center">
+  <a href="https://www.massey.ac.nz/about/colleges-schools-and-institutes/college-of-sciences/school-of-food-and-advanced-technology/">
+    <img src="http://sites.massey.ac.nz/scran/wp-content/uploads/sites/102/2022/02/Massey-Logo.png" alt="Logo">
+  </a>
 
-Source code of a Scara-Robot developed for the [School of Food and Advanced Technology
-at Massey University](https://www.massey.ac.nz/about/colleges-schools-and-institutes/college-of-sciences/school-of-food-and-advanced-technology/).
-![Logo](http://sites.massey.ac.nz/scran/wp-content/uploads/sites/102/2022/02/Massey-Logo.png)
+  <h2 align="center">SCARA-Robot, Blue_Robot_2022</h3>
+
+  <p align="center">
+    Source code of a Scara-Robot developed for the School of Food and Advanced Technology at Massey University.
+    <br />
+    <a href="https://github.com/Thibault-GILLARD/Blue_Robot_2022"><strong>Explore the docs »</strong></a>
+    <br />
+    <br />
+    <a href="https://github.com/Thibault-GILLARD/Blue_Robot_2022/tree/develop/Examples_Tests">View Demo</a>
+    ·
+    <a href="https://github.com/Thibault-GILLARD/Blue_Robot_2022/issues">Report Bug</a>
+    ·
+    <a href="https://github.com/Thibault-GILLARD/Blue_Robot_2022/issues">Request Feature</a>
+  </p>
+  <a href="https://en.wikipedia.org/wiki/SCARA">
+    <img src="https://electricalworkbook.com/wp-content/uploads/2021/07/SCARA-Robot.png" alt="Logo" width="251" height="265">
+  </a>
+</div>
 
 This is the second version of the source code developed for the robot.
 
@@ -28,32 +48,7 @@ the arduino ide or platformIO on VScode (recommended).
 
 The SCARA robot, which stands for Selective Compliance Assembly Robot Arm, is a type of articulated robot arm that is commonly used in industrial and manufacturing settings. 
 
-<p align="center">
-  <img src="https://electricalworkbook.com/wp-content/uploads/2021/07/SCARA-Robot.png?raw=true" alt="Sublime's custom image"/>
-</p>
-
 https://user-images.githubusercontent.com/117235512/201827715-498f13ce-a90b-482b-a64e-b92b25c59737.mp4
 
 
-<!-- PROJECT LOGO -->
-<br />
-<div align="center">
-  <a href="https://github.com/othneildrew/Best-README-Template">
-    <img src="https://electricalworkbook.com/wp-content/uploads/2021/07/SCARA-Robot.png" alt="Logo" width="251" height="265">
-  </a>
 
-  <h3 align="center">SCARA-Robot, Blue_Robot_2022</h3>
-
-  <p align="center">
-    Source code of a Scara-Robot developed for the School of Food and Advanced Technology at Massey University.
-    <br />
-    <a href="https://github.com/Thibault-GILLARD/Blue_Robot_2022"><strong>Explore the docs »</strong></a>
-    <br />
-    <br />
-    <a href="https://github.com/Thibault-GILLARD/Blue_Robot_2022/tree/develop/Examples_Tests">View Demo</a>
-    ·
-    <a href="https://github.com/Thibault-GILLARD/Blue_Robot_2022/issues">Report Bug</a>
-    ·
-    <a href="https://github.com/Thibault-GILLARD/Blue_Robot_2022/issues">Request Feature</a>
-  </p>
-</div>
