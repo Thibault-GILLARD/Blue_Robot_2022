@@ -1,6 +1,6 @@
 
 #include <Arduino.h>
-#include "main_R2.hpp"
+#include "main_BR.hpp"
 #include "Steppers_BR.hpp"
 
 //
@@ -258,7 +258,7 @@ void speed_adapt(int max_mvmnt, int to_adapte_1, int to_adapte_2)
 
 void Home()
 {
-  digitalWrite(Robot_Enable1_Pin, LOW); // LOW Level Enable
+  digitalWrite(Robot_Enable1_Pin, LOW); // LOW Level = Enable
   digitalWrite(Robot_Enable2_Pin, LOW);
   digitalWrite(Robot_Enable3_Pin, LOW);
   U8 delay_homing[2] = {0, 10};
