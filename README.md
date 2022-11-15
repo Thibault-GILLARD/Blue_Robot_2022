@@ -45,7 +45,7 @@ https://user-images.githubusercontent.com/117235512/201827715-498f13ce-a90b-482b
   <h3 align="center">SCARA-Robot, Blue_Robot_2022</h3>
 
   <p align="center">
-    Source code of a Scara-Robot developed for the [School of Food and Advanced Technology at Massey University](https://www.massey.ac.nz/about/colleges-schools-and-institutes/college-of-sciences/school-of-food-and-advanced-technology/).
+    Source code of a Scara-Robot developed for the School of Food and Advanced Technology at Massey University.
     <br />
     <a href="https://github.com/othneildrew/Best-README-Template"><strong>Explore the docs »</strong></a>
     <br />
