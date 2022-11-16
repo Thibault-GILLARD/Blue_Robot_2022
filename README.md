@@ -139,6 +139,11 @@ https://user-images.githubusercontent.com/117235512/201827715-498f13ce-a90b-482b
 
 #### GUI To Control The Robot
 
+
+https://user-images.githubusercontent.com/117235512/202077130-3262997f-9de9-42b1-afd4-c415903a2e67.mp4
+
+
+
 #### Draw your design
 
 https://user-images.githubusercontent.com/117235512/202069179-de6312d3-ee59-4c6c-9dbe-a9ff7f8828bb.mp4
