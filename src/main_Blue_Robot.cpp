@@ -3,20 +3,6 @@
 #include "main_BR.hpp"
 #include "Steppers_BR.hpp"
 
-//
-// Variables---
-// Recived Data
-String data[30];
-
-// Sensor values
-int Prox_Sensor[4] = {0, 0, 0, 0};// Proximity sensor state (0 = not triggered, 1 = triggered)
-
-int myTimeout = 2;// milliseconds
-
-String Serial_input[90][30];  
-int Serial_counter = 0;
-int Serial_counter_use = 0;
-
 
 // Functions---
 void setup()
@@ -49,6 +35,7 @@ void setup()
   while (!SerialUSB)       // Wait for the serial connection to be establised.
   {
   }
+  int myTimeout = 2;// milliseconds
   SerialUSB.setTimeout(myTimeout); // set shorter timeout for serial read, default is 1000ms but we don't/want need that long for this application
 }
 

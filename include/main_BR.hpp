@@ -1,8 +1,7 @@
 #define _MAIN_R_HPP_
 
-#include <AccelStepper.h> // AccelStepper library
 #include <Arduino.h>	  // Arduino library
-
+#include <AccelStepper.h> // AccelStepper library
 
 #include "USB_device_R.h"
 #include "Pin_Define_BR.hpp"
@@ -12,18 +11,30 @@
 The volatile keyword is used to tell the compiler that the variable can change at any time,
 so the compiler should not optimize the code to take advantage of the known value.
 */
-Bool inMove = false; // Flag to indicate if the robot is moving or not.
-S32 volatile airCount = 0;
-S32 volatile airStopCount = 0;
 
+// Variables---
+
+Bool inMove = false; // Flag to indicate if the robot is moving or not.
+
+// Recived Data
+String Serial_input[90][4]; // Store the Data received from the serial port
+String data[4];				// Strore the command to execute
+U8 Serial_counter = 0;		// Counter of the number of orders received
+U8 Serial_counter_use = 0;	// Counter of orders processed
+
+// Default values of speed and acceleration
 S32 volatile General_speed = 10000; // 10000
 S32 volatile General_acc = General_speed / 2;
 
-String Msg_Air;
-
+// Use when we want to wait before the next command (After AIR command)
 U32 myTime;			 // Time sends by the command "AIR" corresponding to the time to wait before any other actions.
 U32 pTime;			 // Exact time when the "AIR" command is received.
 Bool Timer_activate; // True while we have not wait the time specified by the command "AIR"(myTime).
+
+String Msg_Air; // String to send after AIR command
+
+// Sensor values
+int Prox_Sensor[4] = {0, 0, 0, 0}; // Proximity sensor state (0 = not triggered, 1 = triggered)
 
 //--------------------------------------------------------------------------------------------
 
@@ -39,21 +50,13 @@ struct AxisDescription
 	F32 volatile Steps; // number of steps to do
 	F32 ratio_reduc;
 	S32 volatile Offset;
-	Bool volatile Homed; // True if the arm is homed
-};
-struct XYWA
-{
-	F32 X;
-	F32 Y;
-	F32 W;
-	S32 Steps[4];
-	String A;
-	S32 H;
+	Bool Homed; // True if the arm is homed
 };
 
 AxisDescription Axis[4] =
 	{
 		{
+			// Axis 0 (not used)
 
 			0,			 // stepPin
 			0,			 // directionPin
@@ -67,6 +70,7 @@ AxisDescription Axis[4] =
 			false,		 // Homed
 		},
 		{
+			// Axis 1
 
 			Robot_Step1_Pin,	  // stepPin
 			Robot_Direction1_Pin, // directionPin
@@ -81,6 +85,7 @@ AxisDescription Axis[4] =
 			false,				  // Homed
 		},
 		{
+			// Axis 2
 
 			Robot_Step2_Pin,	  // stepPin
 			Robot_Direction2_Pin, // directionPin
@@ -95,6 +100,7 @@ AxisDescription Axis[4] =
 			false,				  // Homed
 		},
 		{
+			// Axis 3
 
 			Robot_Step3_Pin,	  // stepPin
 			Robot_Direction3_Pin, // directionPin
@@ -109,6 +115,14 @@ AxisDescription Axis[4] =
 			false,				  // Homed
 		}};
 
+struct XYWA // Structure to store the position of the robot
+{
+	F32 X;
+	F32 Y;
+	F32 W;
+};
+
+// AccelStepper objects
 const U8 stepperAmount = 4; // 3 + 1, explanation right after
 /*
   1. The first stepper is a null stepper, just to make the array start at 1, so that the axis can be referenced by the axis number.
