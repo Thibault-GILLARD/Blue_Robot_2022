@@ -27,12 +27,43 @@
 
 The SCARA robot, which stands for Selective Compliance Assembly Robot Arm, is a type of articulated robot arm that is commonly used in industrial and manufacturing settings. 
 
+
+<!-- TABLE OF CONTENTS -->
+<details>
+  <summary>Table of Contents</summary>
+  <ol>
+    <li><a href="#about-the-project">About The Project</a></li>
+    <li><a href="#code-explanations-microscope">Code explanations</a></li>
+    </li>
+    <li>
+      <a href="#getting-started">Getting Started</a>
+      <ul>
+        <li><a href="#file-organisation">File organisation</a></li>
+        <li><a href="#prerequisites">Prerequisites</a></li>
+        <li><a href="#arduino-board">Arduino Board</a></li>
+      </ul>
+    </li>
+    <li>
+      <a href="#usage-examples">Usage Examples</a>
+      <ul>
+        <li><a href="#basic-test">Basic Test:</a></li>
+        <li><a href="#simple-applications">Simple applications:</a></li>
+          <ul>
+            <li><a href="#gui-to-control-the-robot">GUI To Control The Robot</a></li>
+            <li><a href="#draw-your-design">Draw your design</a></li>
+          </ul>
+      </ul>
+    </li>
+  </ol>
+</details>
+
+
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
 This is the second version of the source code developed for the robot.
 
-#### This one fulfils two main needs: :
+#### This one fulfils two main needs: 
 - Switch to a more accessible, manipulable, and documented code for students/users :+1: 
 - Easy and inexpensive replacement of the robot's microcontroller :+1:
 
@@ -131,9 +162,9 @@ This only requires that the 'SerialUSB' object be replaced with the 'Serial' obj
   ```
 
 <!-- USAGE EXAMPLES -->
-## USAGE EXAMPLES
+## Usage Examples
 
-### Basic Test :
+### Basic Test
 
 you can start the first serial communication using the serial monitor of the arduino IDE, with simple commands like :
 
@@ -161,7 +192,7 @@ Just configure the COM to match the table below :
 
 ![GITHUB 2](https://user-images.githubusercontent.com/117235512/202085701-7ea6a69b-b2e2-489d-bb4e-fa0d189a10ca.gif)
 
-### Simple applications :
+### Simple applications
 
 #### GUI To Control The Robot
 
