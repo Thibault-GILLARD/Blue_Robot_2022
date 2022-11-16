@@ -53,8 +53,8 @@ The SCARA robot, which stands for Selective Compliance Assembly Robot Arm, is a 
         <li><a href="#basic-test">Basic Test:</a></li>
         <li><a href="#simple-applications">Simple applications:</a></li>
           <ul>
-            <li><a href="#gui-to-control-the-robot">GUI To Control The Robot</a></li>
-            <li><a href="#draw-your-design">Draw your design</a></li>
+            <li><a href="#gui-to-control-the-robot-desktop_computer">GUI To Control The Robot</a></li>
+            <li><a href="#draw-your-design-crayon">Draw your design</a></li>
           </ul>
       </ul>
     </li>
@@ -198,7 +198,7 @@ Just configure the COM to match the table below :
 
 ### Simple applications
 
-#### GUI To Control The Robot
+#### GUI To Control The Robot :desktop_computer:
 
 A graphical user interface has been created in python to get to grips with the robot and quickly understand the different functions.
 
@@ -215,7 +215,7 @@ TheGUI is based on the kivy library which you need to add to your environment :
 https://user-images.githubusercontent.com/117235512/202077130-3262997f-9de9-42b1-afd4-c415903a2e67.mp4
 
 
-#### Draw your design
+#### Draw your design :crayon:
 
 Another very simple and quick to code application is presented in [Examples_Tests](https://github.com/Thibault-GILLARD/Blue_Robot_2022/tree/develop/Examples_Tests)
 
