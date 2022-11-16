@@ -415,7 +415,7 @@ void process_orders(String content)
     // Target.H = 0; // for the moment
     Move(Target);
 
-    SerialUSB.println("AT" + String(data[1]) + String(data[2]) + String(data[3]));
+    SerialUSB.println("AT" + String(data[1]) + ',' + String(data[2]) + ',' + String(data[3]));
   }
   else if (data[0] == "ID") // Asks if the robot arm is right- or left-handed
   {
