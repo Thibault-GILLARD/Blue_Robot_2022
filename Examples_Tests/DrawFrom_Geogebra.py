@@ -20,6 +20,10 @@ print('StopBits =', SerialObj.stopbits)
 # class in which we are defining the
 # sliders and its effects
 
+liste = []
+liste_num = []
+command = []
+
 
 def print_out(message):
     msg = message
@@ -29,10 +33,6 @@ def print_out(message):
     print(RecivedStr)
     # return  RecivedStr
 
-
-liste = []
-liste_num = []
-command = []
 
 with open('Dessin_1.txt') as csv_file:
     csv_reader = csv.reader(csv_file, delimiter=',')
@@ -54,7 +54,6 @@ for element in liste:
     liste_num.append(subnewstr1[1])
 
 print(liste_num)
-
 
 ints = []
 for element in liste_num:
@@ -90,8 +89,7 @@ for i in range(int(len(ints)/4)):
 print(command)
 print(len(command))
 
-
-for i in range(len(command)):
-        print_out(command[i])
+for element in command:
+    print_out(element)
 
 
