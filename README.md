@@ -170,7 +170,7 @@ This only requires that the 'SerialUSB' object be replaced with the 'Serial' obj
 
 ### Basic Test
 
-you can start the first serial communication using the serial monitor of the arduino IDE, with simple commands like :
+You can start the first serial communication using the serial monitor of the arduino IDE, with simple commands like :
 
 ```text
 PING
@@ -184,7 +184,7 @@ And after the homing you will be able to send MOVE command...
 
 ![com_arduino](https://user-images.githubusercontent.com/117235512/202085686-4673ef6e-fd74-4ce8-b883-b64c55b404b6.gif)
 
-Des logiciel tel aue YAT ou bien Serial Port Monitor peuvent aussi etre utiliser pour les premier tests.
+Software such as YAT or Serial Port Monitor can also be used for initial testing.
 Just configure the COM to match the table below :
 
 <div align="center">
@@ -193,8 +193,30 @@ Just configure the COM to match the table below :
   </a>
 </div>
 
-
 ![GITHUB 2](https://user-images.githubusercontent.com/117235512/202085701-7ea6a69b-b2e2-489d-bb4e-fa0d189a10ca.gif)
+
+Here is also a small functional test on **python** using the main commands :
+  ```python
+  import serial
+
+  SerialObj = serial.Serial('COM14')
+  SerialObj.baudrate = 115200
+  SerialObj.bytesize = 8
+  SerialObj.parity = serial.PARITY_NONE
+  SerialObj.stopbits = 1
+
+  def print_out(message):
+      msg = message
+      mdg_str_encode = str(msg).encode()
+      SerialObj.write(mdg_str_encode)
+      RecivedStr = SerialObj.readline()
+      print(RecivedStr)
+
+  command = ['PING','HOME','MOVE,-300,-200,0','MOVE,-300,0,0','AIR,D,2000','HOME','AIR,U']
+
+  for element in command:
+      print_out(element)
+  ```
 
 ### Simple applications
 
