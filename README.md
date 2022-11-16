@@ -114,15 +114,38 @@ AccelStepper is a library included in the standard Arduino IDE that allows the c
 
 To better understand how it works you can refer to these [equations](https://www.embedded.com/generate-stepper-motor-speed-profiles-in-real-time/) on which the calculations are based.:gear:
 
+### Arduino Board
+Originally the project was programmed for a arduino DUE to take advantage of the Native Port (faster) directly connected to the Atmel SAM3X8.
+
+With simple modifications, the program can be adapted to hundreds of Arduino-compatible boards that use a USB-to-serial converter :
+This only requires that the 'SerialUSB' object be replaced with the 'Serial' object. So replace all 'SerialUSB' with 'Serial'.
+
+-Ex :
+  ```cpp
+  SerialUSB.begin(115200);
+  ```
+  becomes
+  ```cpp
+  Serial.begin(115200);
+  ```
+
 <!-- USAGE EXAMPLES -->
 ## USAGE EXAMPLES
 
-Ping the robot to check if it is connected :
--Send :
-  ```Text
-  PING
-  ```
-
+### Basic Test :
 https://user-images.githubusercontent.com/117235512/201827715-498f13ce-a90b-482b-a64e-b92b25c59737.mp4
+
+### Simple applications :
+
+#### GUI To Control The Robot
+
+#### Draw your design
+
+https://user-images.githubusercontent.com/117235512/202069179-de6312d3-ee59-4c6c-9dbe-a9ff7f8828bb.mp4
+
+
+
+
+
 
 
