@@ -5,9 +5,6 @@
   <a href="https://www.massey.ac.nz/about/colleges-schools-and-institutes/college-of-sciences/school-of-food-and-advanced-technology/">
     <img src="http://sites.massey.ac.nz/scran/wp-content/uploads/sites/102/2022/02/Massey-Logo.png" alt="Logo" width="554" height="137">
   </a>
-
-  
-
   <p align="center">
     Source code of a Scara-Robot developed for the School of Food and Advanced Technology at Massey University.
     <br />
@@ -27,6 +24,13 @@
 
 The SCARA robot, which stands for Selective Compliance Assembly Robot Arm, is a type of articulated robot arm that is commonly used in industrial and manufacturing settings. 
 
+<!-- BADGE -->
+</p>
+<p align="center">
+  <img alt="GitHub All Releases" src="https://img.shields.io/github/downloads/Thibault-GILLARD/Blue_Robot_2022/total?logo=GitHub">
+  <img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/Thibault-GILLARD/Blue_Robot_2022?logo=GitHub&style">
+  <img alt="GitHub repo size" src="https://img.shields.io/github/repo-size/Thibault-GILLARD/Blue_Robot_2022?logo=GitHub">
+</p>
 
 <!-- TABLE OF CONTENTS -->
 <details>
@@ -196,7 +200,7 @@ Just configure the COM to match the table below :
 
 #### GUI To Control The Robot
 
-A graphical user interface has been created in python to get to grips with the robot and quickly understand the different functions
+A graphical user interface has been created in python to get to grips with the robot and quickly understand the different functions.
 
 TheGUI is based on the kivy library which you need to add to your environment :
 * with pip
