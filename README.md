@@ -154,12 +154,13 @@ TheGUI is based on the kivy library which you need to add to your environment :
 https://user-images.githubusercontent.com/117235512/202077130-3262997f-9de9-42b1-afd4-c415903a2e67.mp4
 
 
-
 #### Draw your design
 
-Une autre application tres symple a code   presente dans [Examples_Tests](https://github.com/Thibault-GILLARD/Blue_Robot_2022/tree/develop/Examples_Tests)
+Another very simple and quick to code application is presented in [Examples_Tests](https://github.com/Thibault-GILLARD/Blue_Robot_2022/tree/develop/Examples_Tests)
 
+This application allows the robot to draw what you have drawn on [GEOGEBRA](https://www.geogebra.org/classic).
 
+Here's a tutorial:
 
 https://user-images.githubusercontent.com/117235512/202069179-de6312d3-ee59-4c6c-9dbe-a9ff7f8828bb.mp4
 
