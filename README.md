@@ -80,36 +80,39 @@ The .drawio files are also available so you can modify or adapt them for your pr
 <!-- GETTING STARTED -->
 ## Getting Started
 
-This is an example of how you may give instructions on setting up your project locally.
-To get a local copy up and running follow these simple example steps.
+### File organisation
+
+The folder can be used directly on **platformIO**, it is useful to know where to find the useful files for the **Arduino IDE**.
+
+The implementation file is located in the **"src"** folder :
+- [src](https://github.com/Thibault-GILLARD/Blue_Robot_2022/tree/develop/src)
+
+  -[main_Blue_Robot.cpp](https://github.com/Thibault-GILLARD/Blue_Robot_2022/blob/develop/src/main_Blue_Robot.cpp)   
+
+The Header files are located in the **"include"** folder :
+- [include](https://github.com/Thibault-GILLARD/Blue_Robot_2022/tree/develop/include)
+
+  -[main_BR.hpp](https://github.com/Thibault-GILLARD/Blue_Robot_2022/blob/develop/include/main_BR.hpp)
+  
+  -[Steppers_BR.hpp](https://github.com/Thibault-GILLARD/Blue_Robot_2022/blob/develop/include/Steppers_BR.hpp)
+  
+  -[Pin_Define_BR.hpp](https://github.com/Thibault-GILLARD/Blue_Robot_2022/blob/develop/include/Pin_Define_BR.hpp)
+  
+  -[Robot_Define_BR.hpp](https://github.com/Thibault-GILLARD/Blue_Robot_2022/blob/develop/include/Robot_Define_BR.hpp)
+  
+  -[USB_device_R.h](https://github.com/Thibault-GILLARD/Blue_Robot_2022/blob/develop/include/USB_device_R.h), (normally not used)
+
+
 
 ### Prerequisites
 
-This is an example of how to list things you need to use the software and how to install them.
-* npm
-  ```sh
-  npm install npm@latest -g
+You just need to install the library called [AccelStepper](https://www.airspayce.com/mikem/arduino/AccelStepper/).
+  ```cpp
+  #include <AccelStepper.h>
   ```
+AccelStepper is a library included in the standard Arduino IDE that allows the control of stepper motors and motor drivers (with acceleration and deceleration).
 
-### Installation
-
-_Below is an example of how you can instruct your audience on installing and setting up your app. This template doesn't rely on any external dependencies or services._
-
-1. Get a free API Key at [https://example.com](https://example.com)
-2. Clone the repo
-   ```sh
-   git clone https://github.com/your_username_/Project-Name.git
-   ```
-3. Install NPM packages
-   ```sh
-   npm install
-   ```
-4. Enter your API in `config.js`
-   ```js
-   const API_KEY = 'ENTER YOUR API';
-   ```
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
+To better understand how it works you can refer to these [equations](https://www.embedded.com/generate-stepper-motor-speed-profiles-in-real-time/) on which the calculations are based.:gear:
 
 <!-- USAGE EXAMPLES -->
 ## USAGE EXAMPLES
