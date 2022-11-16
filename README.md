@@ -217,6 +217,7 @@ Here is also a small functional test on **python** using the main commands :
   for element in command:
       print_out(element)
   ```
+You can find the same test in different languages in [Examples_Tests/Small_Test.txt](https://github.com/Thibault-GILLARD/Blue_Robot_2022/blob/develop/Examples_Tests/Small_Test.txt).
 
 ### Simple applications
 
