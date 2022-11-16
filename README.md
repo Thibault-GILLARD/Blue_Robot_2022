@@ -82,7 +82,8 @@ The .drawio files are also available so you can modify or adapt them for your pr
 
 ### File organisation
 
-The folder can be used directly on **platformIO**, it is useful to know where to find the useful files for the **Arduino IDE**.
+The folder can be used directly on **platformIO**.
+Here are the important files of the source code:
 
 The implementation file is located in the **"src"** folder :
 - [src](https://github.com/Thibault-GILLARD/Blue_Robot_2022/tree/develop/src)
