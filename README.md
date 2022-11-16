@@ -117,6 +117,12 @@ To better understand how it works you can refer to these [equations](https://www
 <!-- USAGE EXAMPLES -->
 ## USAGE EXAMPLES
 
+Ping the robot to check if it is connected :
+-Send :
+  ```Text
+  PING
+  ```
+
 https://user-images.githubusercontent.com/117235512/201827715-498f13ce-a90b-482b-a64e-b92b25c59737.mp4
 
 
