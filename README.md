@@ -139,12 +139,27 @@ https://user-images.githubusercontent.com/117235512/201827715-498f13ce-a90b-482b
 
 #### GUI To Control The Robot
 
+A graphical user interface has been created in python to get to grips with the robot and quickly understand the different functions
+
+TheGUI is based on the kivy library which you need to add to your environment :
+* with pip
+  ```cmd
+  pip install Kivy
+  ```
+* with conda
+  ```python
+  conda install -c conda-forge kivy
+  ```
 
 https://user-images.githubusercontent.com/117235512/202077130-3262997f-9de9-42b1-afd4-c415903a2e67.mp4
 
 
 
 #### Draw your design
+
+Une autre application tres symple a code   presente dans [Examples_Tests](https://github.com/Thibault-GILLARD/Blue_Robot_2022/tree/develop/Examples_Tests)
+
+
 
 https://user-images.githubusercontent.com/117235512/202069179-de6312d3-ee59-4c6c-9dbe-a9ff7f8828bb.mp4
 
