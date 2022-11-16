@@ -30,21 +30,9 @@ def print_out(message):
     # return  RecivedStr
 
 
-
-def print_out_move(value_x, value_y, value_z):
-    move_str = 'MOVE,' + value_x + ',' + value_y + ',' + value_z
-    move_str_encode = str(move_str).encode('ascii')
-    # SerialObj.write(b'1,2\r')
-    SerialObj.write(move_str_encode)
-    RecivedStr = SerialObj.readline()
-    # print(RecivedStr)
-
-time_up = 800
-time_down = 2200
 liste = []
 liste_num = []
 command = []
-
 
 with open('Dessin_1.txt') as csv_file:
     csv_reader = csv.reader(csv_file, delimiter=',')
