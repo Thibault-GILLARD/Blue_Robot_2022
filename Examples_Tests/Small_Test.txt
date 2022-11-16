@@ -1,0 +1,218 @@
+Small functional test on different languages using the main commands
+Attention only the one made on python has been tested, the others are examples of code that "could" work.
+
+python ----------------------------------------------------------------------------------------------------------
+import serial
+
+SerialObj = serial.Serial('COM14')
+SerialObj.baudrate = 115200
+SerialObj.bytesize = 8
+SerialObj.parity = serial.PARITY_NONE
+SerialObj.stopbits = 1
+
+def print_out(message):
+    msg = message
+    mdg_str_encode = str(msg).encode()
+    SerialObj.write(mdg_str_encode)
+    RecivedStr = SerialObj.readline()
+    print(RecivedStr)
+    return  RecivedStr
+
+command = ['PING','HOME','MOVE,-300,-200,0','MOVE,-300,0,0','AIR,D,2000','HOME','AIR,U']
+
+for element in command:
+    print_out(element)
+
+Javascript ----------------------------------------------------------------------------------------------------------
+var SerialObj = require('serialport');
+
+var serialPort = new SerialObj('COM14', {
+    baudRate: 115200,
+    dataBits: 8,
+    parity: 'none',
+    stopBits: 1,
+    flowControl: false
+});
+
+function print_out(message) {
+    var msg = message;
+    var mdg_str_encode = str(msg).encode();
+    SerialObj.write(mdg_str_encode);
+    var RecivedStr = SerialObj.readline();
+    console.log(RecivedStr);
+    return RecivedStr;
+}
+
+var command = ['PING', 'HOME', 'MOVE,-300,-200,0', 'MOVE,-300,0,0', 'AIR,D,2000', 'HOME', 'AIR,U'];
+
+for (var element in command) {
+    print_out(element);
+}
+
+Visual Basic ----------------------------------------------------------------------------------------------------------
+Imports System.IO.Ports
+
+SerialObj = New SerialPort("COM14")
+SerialObj.BaudRate = 115200
+SerialObj.DataBits = 8
+SerialObj.Parity = Parity.None
+SerialObj.StopBits = StopBits.One
+
+Sub print_out(message As String)
+    Dim msg As String = message
+    Dim mdg_str_encode As String = str(msg).encode()
+    SerialObj.Write(mdg_str_encode)
+    Dim RecivedStr As String = SerialObj.ReadLine()
+    Console.WriteLine(RecivedStr)
+    Return RecivedStr
+End Sub
+
+Dim command As String() = {"PING", "HOME", "MOVE,-300,-200,0", "MOVE,-300,0,0", "AIR,D,2000", "HOME", "AIR,U"}
+
+For Each element As String In command
+    print_out(element)
+Next
+
+
+
+csharp----------------------------------------------------------------------------------------------------------
+using System.IO.Ports;
+
+SerialPort SerialObj = new SerialPort("COM14");
+SerialObj.BaudRate = 115200;
+SerialObj.DataBits = 8;
+SerialObj.Parity = 0;
+SerialObj.StopBits = 1;
+
+public string print_out(string message)
+{
+    string msg = message;
+    byte[] mdg_str_encode = System.Text.Encoding.ASCII.GetBytes(msg);
+    SerialObj.Write(mdg_str_encode);
+    string RecivedStr = SerialObj.ReadLine();
+    System.Console.WriteLine(RecivedStr);
+    return RecivedStr;
+}
+
+string[] command = new string[] { "PING", "HOME", "MOVE,-300,-200,0", "MOVE,-300,0,0", "AIR,D,2000", "HOME", "AIR,U" };
+
+for(int i=0; i<command.Length; i++)
+{
+    print_out(command[i]);
+}
+
+ruby----------------------------------------------------------------------------------------------------------
+require 'serialport'
+
+SerialObj = SerialPort.new('COM14', 115200, 8, 1, SerialPort::NONE)
+
+def print_out(message)
+    msg = message
+    mdg_str_encode = msg.to_s.encode
+    SerialObj.write(mdg_str_encode)
+    RecivedStr = SerialObj.readline
+    puts RecivedStr
+    return  RecivedStr
+end
+
+command = ['PING','HOME','MOVE,-300,-200,0','MOVE,-300,0,0','AIR,D,2000','HOME','AIR,U']
+
+for element in command
+    print_out(element)
+
+java----------------------------------------------------------------------------------------------------------
+import jssc.SerialPort;
+import jssc.SerialPortException;
+import jssc.SerialPortList;
+
+public class SerialComm {
+
+    public static void main(String[] args) {
+        SerialPort serialPort = new SerialPort("COM14");
+        try {
+            serialPort.openPort();//Open serial port
+            serialPort.setParams(115200, 8, 1, 0);//Set params.
+            String[] command = new String[]{"PING", "HOME", "MOVE, -300, -200, 0", "MOVE, -300, 0, 0", "AIR, D, 2000", "HOME", "AIR, U"};
+            for (String element : command) {
+                serialPort.writeString(element);
+                String recievedStr = serialPort.readString();
+                System.out.println(recievedStr);
+            }
+            serialPort.closePort();//Close serial port
+        } catch (SerialPortException ex) {
+            System.out.println(ex);
+        }
+    }
+}
+
+c ----------------------------------------------------------------------------------------------------------
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <unistd.h>
+#include <fcntl.h>
+#include <errno.h>
+#include <termios.h>
+#include <time.h>
+
+int main(int argc, char** argv)
+{
+    // Open the serial port
+    int serial_port = open("/dev/ttyACM0", O_RDWR);
+    if (serial_port < 0)
+    {
+        printf("Error %i from open: %s\n", errno, strerror(errno));
+        return 1;
+    }
+    
+    // Create new termios struc, we call it 'tty' for convention
+    struct termios tty;
+    memset(&tty, 0, sizeof tty);
+    
+    // Read in existing settings, and handle any error
+    if(tcgetattr(serial_port, &tty) != 0)
+    {
+        printf("Error %i from tcgetattr: %s\n", errno, strerror(errno));
+        return 1;
+    }
+    
+    // Set Baud Rate
+    cfsetospeed(&tty, (speed_t)B115200);
+    cfsetispeed(&tty, (speed_t)B115200);
+    
+    // Setting other Port Stuff
+    tty.c_cflag     &=  ~PARENB;        // Make 8n1
+    tty.c_cflag     &=  ~CSTOPB;
+    tty.c_cflag     &=  ~CSIZE;
+    tty.c_cflag     |=  CS8;
+    
+    tty.c_cflag     &=  ~CRTSCTS;       // no flow control
+    tty.c_cc[VMIN]      =   1;                  // read doesn't block
+    tty.c_cc[VTIME]     =   5;                  // 0.5 seconds read timeout
+    tty.c_cflag     |=  CREAD | CLOCAL;     // turn on READ & ignore ctrl lines
+    
+    // Make raw
+    cfmakeraw(&tty);
+    
+    // Flush Port, then applies attributes
+    tcflush(serial_port, TCIFLUSH);
+    if (tcsetattr(serial_port, TCSANOW, &tty) != 0)
+    {
+        printf("Error %i from tcsetattr: %s\n", errno, strerror(errno));
+        return 1;
+    }
+    
+    // Send char to serial port
+    char *command[] = {"PING","HOME","MOVE,-300,-200,0","MOVE,-300,0,0","AIR,D,2000","HOME","AIR,U"};
+    char *msg = NULL;
+    int i = 0;
+    for (i=0; i<7; i++)
+    {
+        msg = command[i];
+        write(serial_port, msg, strlen(msg));
+        char RecivedStr[128] = {0};
+        read(serial_port, RecivedStr, sizeof(RecivedStr));
+        printf("%s\n", RecivedStr);
+    }   
+    return 0;
+}
