@@ -133,7 +133,32 @@ This only requires that the 'SerialUSB' object be replaced with the 'Serial' obj
 ## USAGE EXAMPLES
 
 ### Basic Test :
-https://user-images.githubusercontent.com/117235512/201827715-498f13ce-a90b-482b-a64e-b92b25c59737.mp4
+
+you can start the first serial communication using the serial monitor of the arduino IDE, with simple commands like :
+
+```text
+PING
+```
+Pings the controller to test communications. You should receive a reply 'PONG'.
+Then you can try the homing
+```text
+HOME
+```
+And after the homing you will be able to send MOVE command...
+
+![com_arduino](https://user-images.githubusercontent.com/117235512/202085686-4673ef6e-fd74-4ce8-b883-b64c55b404b6.gif)
+
+Des logiciel tel aue YAT ou bien Serial Port Monitor peuvent aussi etre utiliser pour les premier tests.
+Just configure the COM to match the table below :
+
+<div align="center">
+  <a href="">
+    <img src="https://user-images.githubusercontent.com/117235512/202087771-dd00b3fe-19bb-4246-998c-9c36811773ca.png">
+  </a>
+</div>
+
+
+![GITHUB 2](https://user-images.githubusercontent.com/117235512/202085701-7ea6a69b-b2e2-489d-bb4e-fa0d189a10ca.gif)
 
 ### Simple applications :
 
