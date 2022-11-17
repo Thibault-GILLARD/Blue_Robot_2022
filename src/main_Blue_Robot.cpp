@@ -121,247 +121,6 @@ void read_and_extract(String content)
   }
 }
 
-void Move(XYWA Target) // Move the robot to the target position
-{
-  F32 angle1;// angle of the first/upper arm
-  F32 angle2;// angle of the second/lower arm
-  F32 angle3;// angle of the 'wrist'
-
-  // We chose to put the origin of the repere at the homing position of the robot 
-  // So we need to compensate with the real origin (on which the equations are based)
-  Target.X = Target.X - 16;
-  Target.Y = Target.Y + 555;
-
-  F32 Q = acos((Target.X * Target.X + Target.Y * Target.Y + L1 * L1 - L2 * L2) / (2 * L1 * sqrt(Target.X * Target.X + Target.Y * Target.Y))); 
-  F32 S = atan2(Target.Y, Target.X) - Q;
-  F32 E = acos((Target.X * Target.X + Target.Y * Target.Y - L1 * L1 - L2 * L2) / (Gamma));
-
-  if (elbowType == -1)
-  {
-    angle1 = S * (180 / Pi);
-    angle2 = E * (180 / Pi);
-  }
-  else
-  {
-    angle1 = -((S + 2 * Q) * 180 / Pi - 130.03844822836373);
-    angle2 = (E * (180 / Pi)) - 80.09454688220181 + angle1;
-  }
-  angle3 = Target.W;
-
-  /* Here is the explanation for the code above:
-    For the next line the code is adapting the speed and acceleration of the steppers for each axis in order to finish the movement at the same time.
-    The code must adapt the speed and acceleration of the steppers taking into consideration :
-      -1 the reduction ratio of each axis.
-      -2 the distance to be covered by each axis in relation to the others.
-    1. The code calculate the absolute values of the distance between the current position and the target position.
-    2. The current position is update  to the target position.
-    3. The code compare the steps of the first axis with the steps of the second and third axis.
-      If the first axis has the most steps, I call the function speed_adapt, which will be explain later.
-    4. This is done for each possible combination of the three axes.
-
-
-
-    8. If all three axes have the same amount of steps, I set the speed of all three axes to the General_speed and General_acc.
-  */
-
-  Axis[1].Steps = abs(Axis[1].curent_position - angle1);
-  Axis[2].Steps = abs(Axis[2].curent_position - angle2);
-  Axis[3].Steps = abs(Axis[3].curent_position - angle3);
-
-  Axis[1].curent_position = angle1;
-  Axis[2].curent_position = angle2;
-  Axis[3].curent_position = angle3;
-
-  if (Axis[1].Steps > Axis[2].Steps && Axis[1].Steps > Axis[3].Steps)
-  {
-    speed_adapt(1, 2, 3);
-  }
-  else if (Axis[2].Steps > Axis[1].Steps && Axis[2].Steps > Axis[3].Steps)
-  {
-    speed_adapt(2, 1, 3);
-  }
-  else if (Axis[3].Steps > Axis[1].Steps && Axis[3].Steps > Axis[2].Steps)
-  {
-    speed_adapt(3, 2, 1);
-    if (angle1 < 1 && angle2 < 1)
-    {
-      steppers[3]->setMaxSpeed(General_speed);
-      steppers[3]->setAcceleration(General_acc);
-    }
-  }
-  else
-  {
-    steppers[1]->setMaxSpeed(General_speed);
-    steppers[1]->setAcceleration(General_acc);
-    steppers[2]->setMaxSpeed(General_speed);
-    steppers[2]->setAcceleration(General_acc);
-    steppers[3]->setMaxSpeed(General_speed);
-    steppers[3]->setAcceleration(General_acc);
-  }
-  steppers[1]->moveTo(((angle1)*Driver[Curent_Offset].MICROSTEP*Axis[1].ratio_reduc) / 360);// move the first axis to the target position
-
-  steppers[2]->moveTo(((angle2)*Driver[Curent_Offset].MICROSTEP*Axis[2].ratio_reduc) / 360);// move the second axis to the target position
-
-  steppers[3]->moveTo(((angle3)*Driver[Curent_Offset].MICROSTEP*Axis[3].ratio_reduc) / 360);// move the third axis to the target position
-
-  /* // Just for informations
-  for (int k = 1; k < stepperAmount; k++)
-  {
-    if (Axis[k].curent_position == 0)
-    {
-      Axis[k].Homed = true;
-    }
-    else
-    {
-      Axis[k].Homed = false; //
-    }
-  } */
-}
-
-/*
-void speed_adapt(int max_mvmnt, int to_adapte_1, int to_adapte_2):
-  1. First, we calculate the ratio between the axis to adapt and the axis of maximum movement (max_mvmnt).
-  2. Next, we calculate the maximum and acceleration speeds for the axis of maximum movement (max_mvmnt),
-   and for the other two axes (to_adapte_1 and to_adapte_2).
-  3. We multiply the speed and acceleration ratios by the ratio calculated in step 1, and we set the new
-   speed and acceleration for the two axes to adapt.
-*/
-
-void speed_adapt(int max_mvmnt, int to_adapte_1, int to_adapte_2)
-{
-  F32 ratio1 = Axis[to_adapte_1].Steps / Axis[max_mvmnt].Steps; //
-  F32 ratio2 = Axis[to_adapte_2].Steps / Axis[max_mvmnt].Steps;
-
-  steppers[max_mvmnt]->setMaxSpeed(Axis[max_mvmnt].ratio_speed * General_speed);   // Set the speed of the axis of maximum movement
-  steppers[max_mvmnt]->setAcceleration(Axis[max_mvmnt].ratio_speed * General_acc); // Set the acceleration of the axis of maximum movement
-
-  // Set the acceleration of the axis to adapt
-  steppers[to_adapte_1]->setAcceleration(Axis[to_adapte_1].ratio_speed * General_acc * ratio1);
-  steppers[to_adapte_2]->setAcceleration(Axis[to_adapte_2].ratio_speed * General_acc * ratio2);
-  // Set the speed of the axis to adapt
-  steppers[to_adapte_1]->setMaxSpeed(Axis[to_adapte_1].ratio_speed * General_speed * ratio1);
-  steppers[to_adapte_2]->setMaxSpeed(Axis[to_adapte_2].ratio_speed * General_speed * ratio2);
-}
-
-void Home()
-{
-  digitalWrite(Robot_Enable1_Pin, LOW); // LOW Level = Enable
-  digitalWrite(Robot_Enable2_Pin, LOW);
-  digitalWrite(Robot_Enable3_Pin, LOW);
-
-  /*
-  In order to make the homing accurate and fast enough, the code does it in two steps.
-  Once quickly, then a second time more slowly, with a delay between each homing step.
-  */ 
-  U8 delay_homing[2] = {0, 10};// delay between each homing step in ms
-
-  for (U8 l = 0; l < 2; l++)
-  {
-    for (U8 k = 1; k < stepperAmount; k++)
-    {
-      long initial_homing = 0;                  // Used to Home Stepper at startup
-      pinMode(Axis[k].proxPin, INPUT_PULLUP);    // Set the pin to input ("INPUT_PULLUP" is the mode of the pin, which is to pull the pin high when it is not connected to ground.)
-      steppers[k]->setMaxSpeed(General_speed);   // Set Max Speed of Stepper (Slower to get better accuracy)
-      steppers[k]->setAcceleration(General_acc); // Set Acceleration of Stepper
-
-      while (digitalRead(Axis[k].proxPin))
-      {                                      // Make the Stepper move CCW until the switch is activated
-        steppers[k]->moveTo(initial_homing); // Set the position to move to
-        if (Axis[k].Direction == dir_Forward)
-        {
-          initial_homing = initial_homing - 1; // Decrease by 1 for next move if needed
-        }
-        else
-        {
-          initial_homing = initial_homing + 1;
-        }
-        steppers[k]->run(); // Start moving the stepper
-        delay(delay_homing[l]);
-      }
-      steppers[k]->setCurrentPosition(0);        // Set the current position as zero for now
-      steppers[k]->setMaxSpeed(General_speed);   // Set Max Speed of Stepper (Slower to get better accuracy)
-      steppers[k]->setAcceleration(General_acc); // Set Acceleration of Stepper
-      initial_homing = 0;
-
-      while (!digitalRead(Axis[k].proxPin))
-      { // Make the Stepper move CW until the switch is deactivated
-        steppers[k]->moveTo(initial_homing);
-        steppers[k]->run();
-
-        if (Axis[k].Direction == dir_Forward)
-        {
-          initial_homing = initial_homing + 1; // Decrease by 1 for next move if needed
-        }
-        else
-        {
-          initial_homing = initial_homing - 1;
-        }
-        delay(delay_homing[l]);
-      }
-      steppers[k]->setCurrentPosition(0);
-      Axis[k].Homed = true;
-    }
-  }
-}
-
-
-/*
-void air_process(String realString):
-  1. The string realString is the string that has been received from the serial port
-  2. If the string is equal to "S", then the function will call the function cyl_Stop, which is defined in the header file
-  3. If the string is equal to "U", then the function will call the function cyl_Up, ...
-  4. If the string is equal to "D", then the function will call the function cyl_Down, ...
-  5. If the string is equal to "V", then the function will call the function vac_On, ...
-  6. If the string is equal to "B", then the function will call the function blast_On, ...
-  7. If the string is equal to "O", then the function will call the function vac_Off, ...
-  8. If the string is equal to "O", then the function will call the function blast_Off, ...
-  9. If the string is not equal to any of the above, then the function will set the string Msg_Air to "NO" + realString.
-    The string "NO" will be displayed if the string received is not equal to any of the above mentioned strings.
-*/
-void air_process(String realString)
-{
-  if (realString == "S")
-  {
-    // Stop
-    cyl_Stop;
-    Msg_Air = "AIR S";
-  }
-  else if (realString == "U")
-  {
-    // Up
-    cyl_Up;
-    Msg_Air = "AIR U";
-  }
-  else if (realString == "D")
-  {
-    // Down
-    cyl_Down;
-    Msg_Air = "AIR D";
-  }
-  else if (realString == "V")
-  {
-    // Valve On
-    vac_On;
-    Msg_Air = "AIR V";
-  }
-  else if (realString == "B")
-  {
-    // Blast On
-    blast_On;
-    Msg_Air = "AIR B";
-  }
-  else if (realString == "O") // Valve & Blast Off
-  {
-    vac_Off;
-    blast_Off;
-    Msg_Air = "AIR O";
-  }
-  else
-  {
-    Msg_Air = "NO" + realString;
-  }
-}
-
 /*
 void process_orders(String content):
   1. The code is a function that takes a string as an argument.
@@ -380,7 +139,6 @@ void process_orders(String content):
 
   4. If the value of the first element of the data array is not one of the above, the robot arm returns NACK and the value of the first element of the data array.
 */
-
 void process_orders(String content)
 {
 
@@ -453,11 +211,11 @@ void process_orders(String content)
       Curent_Offset = k;
     }
   }
-    SerialUSB.println("OFFSET" + String(Driver[Curent_Offset].MICROSTEP)); // Return the offset
+    SerialUSB.println("OFFSET," + String(Driver[Curent_Offset].MICROSTEP)); // Return the offset
   }
   else if (data[0] == "ROFFSET") // Reads the current offsets from Flash Memory
   {
-    SerialUSB.println("OFFSET," + String(Axis[1].Offset) + "," + String(Axis[2].Offset) + "," + String(Axis[3].Offset));
+    SerialUSB.println("OFFSET," + String(Driver[Curent_Offset].MICROSTEP));
   }
   else if (data[0] == "PROX") // Returns the current values of the proximity sensors
   {
@@ -486,3 +244,245 @@ void process_orders(String content)
   }
 }
 
+void Home()
+{
+  digitalWrite(Robot_Enable1_Pin, LOW); // LOW Level = Enable
+  digitalWrite(Robot_Enable2_Pin, LOW);
+  digitalWrite(Robot_Enable3_Pin, LOW);
+
+  /*
+  In order to make the homing accurate and fast enough, the code does it in two steps.
+  Once quickly, then a second time more slowly, with a delay between each homing step.
+  */ 
+  U8 delay_homing[2] = {0, 10};// delay between each homing step in ms
+
+  for (U8 l = 0; l < 2; l++)
+  {
+    for (U8 k = 1; k < stepperAmount; k++)
+    {
+      long initial_homing = 0;                  // Used to Home Stepper at startup
+      pinMode(Axis[k].proxPin, INPUT_PULLUP);    // Set the pin to input ("INPUT_PULLUP" is the mode of the pin, which is to pull the pin high when it is not connected to ground.)
+      steppers[k]->setMaxSpeed(General_speed);   // Set Max Speed of Stepper (Slower to get better accuracy)
+      steppers[k]->setAcceleration(General_acc); // Set Acceleration of Stepper
+
+      while (digitalRead(Axis[k].proxPin))
+      {                                      // Make the Stepper move CCW until the switch is activated
+        steppers[k]->moveTo(initial_homing); // Set the position to move to
+        if (Axis[k].Direction == dir_Forward)
+        {
+          initial_homing = initial_homing - 1; // Decrease by 1 for next move if needed
+        }
+        else
+        {
+          initial_homing = initial_homing + 1;
+        }
+        steppers[k]->run(); // Start moving the stepper
+        delay(delay_homing[l]);
+      }
+      steppers[k]->setCurrentPosition(0);        // Set the current position as zero for now
+      steppers[k]->setMaxSpeed(General_speed);   // Set Max Speed of Stepper (Slower to get better accuracy)
+      steppers[k]->setAcceleration(General_acc); // Set Acceleration of Stepper
+      initial_homing = 0;
+
+      while (!digitalRead(Axis[k].proxPin))
+      { // Make the Stepper move CW until the switch is deactivated
+        steppers[k]->moveTo(initial_homing);
+        steppers[k]->run();
+
+        if (Axis[k].Direction == dir_Forward)
+        {
+          initial_homing = initial_homing + 1; // Decrease by 1 for next move if needed
+        }
+        else
+        {
+          initial_homing = initial_homing - 1;
+        }
+        delay(delay_homing[l]);
+      }
+      steppers[k]->setCurrentPosition(0);
+      Axis[k].Homed = true;
+    }
+  }
+}
+
+void Move(XYWA Target) // Move the robot to the target position
+{
+  F32 angle1;// angle of the first/upper arm
+  F32 angle2;// angle of the second/lower arm
+  F32 angle3;// angle of the 'wrist'
+
+  // We chose to put the origin of the repere at the homing position of the robot 
+  // So we need to compensate with the real origin (on which the equations are based)
+  Target.X = Target.X - 16;
+  Target.Y = Target.Y + 555;
+
+  // We need to calculate the angles of the three stepper motors
+  F32 Q = acos((Target.X * Target.X + Target.Y * Target.Y + L1 * L1 - L2 * L2) / (2 * L1 * sqrt(Target.X * Target.X + Target.Y * Target.Y))); 
+  F32 S = atan2(Target.Y, Target.X) - Q;
+  F32 E = acos((Target.X * Target.X + Target.Y * Target.Y - L1 * L1 - L2 * L2) / (Gamma));
+  if (elbowType == -1)
+  {
+    angle1 = S * (180 / Pi);
+    angle2 = E * (180 / Pi);
+  }
+  else
+  {
+    angle1 = -((S + 2 * Q) * 180 / Pi - 130.03844822836373);
+    angle2 = (E * (180 / Pi)) - 80.09454688220181 + angle1;
+  }
+  angle3 = Target.W;
+
+  /* Here is the explanation for the code above:
+    For the next line the code is adapting the speed and acceleration of the steppers for each axis in order to finish the movement at the same time.
+    The code must adapt the speed and acceleration of the steppers taking into consideration :
+      -1 the reduction ratio of each axis.
+      -2 the distance to be covered by each axis in relation to the others.
+    1. The code calculate the absolute values of the distance between the current position and the target position.
+    2. The current position is update  to the target position.
+    3. The code compare the steps of the first axis with the steps of the second and third axis.
+      If the first axis has the most steps, the function speed_adapt is called, which will be explain later.
+    4. This is done for each possible combination of the three axes.
+    5. If all three axes have the same amount of steps, the speed of all three axes is set to the General_speed and General_acc.
+  */
+
+  // absolute values of the distance between the current position and the target position.
+  Axis[1].Steps = abs(Axis[1].curent_position - angle1); 
+  Axis[2].Steps = abs(Axis[2].curent_position - angle2);
+  Axis[3].Steps = abs(Axis[3].curent_position - angle3);
+
+  // update the current position to the target position
+  Axis[1].curent_position = angle1;
+  Axis[2].curent_position = angle2;
+  Axis[3].curent_position = angle3;
+
+  if (Axis[1].Steps > Axis[2].Steps && Axis[1].Steps > Axis[3].Steps)
+  {
+    speed_adapt(1, 2, 3);
+  }
+  else if (Axis[2].Steps > Axis[1].Steps && Axis[2].Steps > Axis[3].Steps)
+  {
+    speed_adapt(2, 1, 3);
+  }
+  else if (Axis[3].Steps > Axis[1].Steps && Axis[3].Steps > Axis[2].Steps)
+  {
+    speed_adapt(3, 2, 1);
+    if (angle1 < 1 && angle2 < 1)
+    {
+      steppers[3]->setMaxSpeed(General_speed);
+      steppers[3]->setAcceleration(General_acc);
+    }
+  }
+  else
+  {
+    steppers[1]->setMaxSpeed(General_speed);
+    steppers[1]->setAcceleration(General_acc);
+    steppers[2]->setMaxSpeed(General_speed);
+    steppers[2]->setAcceleration(General_acc);
+    steppers[3]->setMaxSpeed(General_speed);
+    steppers[3]->setAcceleration(General_acc);
+  }
+  
+  // The code below is used to move the robot to the target position
+  // The final target position must be adapted to the reduction ratio of each axis et the offset(microstepping)
+  // So to Driver[Curent_Offset].MICROSTEP and Axis[Curent_Offset].ReductionRatio
+
+  steppers[1]->moveTo(((angle1)*Driver[Curent_Offset].MICROSTEP*Axis[1].ratio_reduc) / 360);// move the first axis to the target position
+
+  steppers[2]->moveTo(((angle2)*Driver[Curent_Offset].MICROSTEP*Axis[2].ratio_reduc) / 360);// move the second axis to the target position
+
+  steppers[3]->moveTo(((angle3)*Driver[Curent_Offset].MICROSTEP*Axis[3].ratio_reduc) / 360);// move the third axis to the target position
+
+  /* // Just for informations
+  for (int k = 1; k < stepperAmount; k++)
+  {
+    if (Axis[k].curent_position == 0)
+    {
+      Axis[k].Homed = true;
+    }
+    else
+    {
+      Axis[k].Homed = false; //
+    }
+  } */
+}
+
+/*
+void speed_adapt(int max_mvmnt, int to_adapte_1, int to_adapte_2):
+  1. First, we calculate the ratio between the axis to adapt and the axis of maximum movement (max_mvmnt).
+  2. Next, we calculate the maximum and acceleration speeds for the axis of maximum movement (max_mvmnt),
+   and for the other two axes (to_adapte_1 and to_adapte_2).
+  3. We multiply the speed and acceleration ratios by the ratio calculated in step 1, and we set the new
+   speed and acceleration for the two axes to adapt.
+*/
+void speed_adapt(int max_mvmnt, int to_adapte_1, int to_adapte_2)
+{
+  F32 ratio1 = Axis[to_adapte_1].Steps / Axis[max_mvmnt].Steps; 
+  F32 ratio2 = Axis[to_adapte_2].Steps / Axis[max_mvmnt].Steps;
+
+  steppers[max_mvmnt]->setMaxSpeed(Axis[max_mvmnt].ratio_speed * General_speed);   // Set the speed of the axis of maximum movement
+  steppers[max_mvmnt]->setAcceleration(Axis[max_mvmnt].ratio_speed * General_acc); // Set the acceleration of the axis of maximum movement
+
+  // Set the acceleration of the axis to adapt
+  steppers[to_adapte_1]->setAcceleration(Axis[to_adapte_1].ratio_speed * General_acc * ratio1);
+  steppers[to_adapte_2]->setAcceleration(Axis[to_adapte_2].ratio_speed * General_acc * ratio2);
+  // Set the speed of the axis to adapt
+  steppers[to_adapte_1]->setMaxSpeed(Axis[to_adapte_1].ratio_speed * General_speed * ratio1);
+  steppers[to_adapte_2]->setMaxSpeed(Axis[to_adapte_2].ratio_speed * General_speed * ratio2);
+}
+
+/*
+void air_process(String realString):
+  1. The string realString is the string that has been received from the serial port
+  2. If the string is equal to "S", then the function will call the function cyl_Stop, which is defined in the header file
+  3. If the string is equal to "U", then the function will call the function cyl_Up, ...
+  4. If the string is equal to "D", then the function will call the function cyl_Down, ...
+  5. If the string is equal to "V", then the function will call the function vac_On, ...
+  6. If the string is equal to "B", then the function will call the function blast_On, ...
+  7. If the string is equal to "O", then the function will call the function vac_Off, ...
+  8. If the string is equal to "O", then the function will call the function blast_Off, ...
+  9. If the string is not equal to any of the above, then the function will set the string Msg_Air to "NO" + realString.
+    The string "NO" will be displayed if the string received is not equal to any of the above mentioned strings.
+*/
+void air_process(String realString)
+{
+  if (realString == "S")
+  {
+    // Stop
+    cyl_Stop;
+    Msg_Air = "AIR S";
+  }
+  else if (realString == "U")
+  {
+    // Up
+    cyl_Up;
+    Msg_Air = "AIR U";
+  }
+  else if (realString == "D")
+  {
+    // Down
+    cyl_Down;
+    Msg_Air = "AIR D";
+  }
+  else if (realString == "V")
+  {
+    // Valve On
+    vac_On;
+    Msg_Air = "AIR V";
+  }
+  else if (realString == "B")
+  {
+    // Blast On
+    blast_On;
+    Msg_Air = "AIR B";
+  }
+  else if (realString == "O") // Valve & Blast Off
+  {
+    vac_Off;
+    blast_Off;
+    Msg_Air = "AIR O";
+  }
+  else
+  {
+    Msg_Air = "NO" + realString;
+  }
+}

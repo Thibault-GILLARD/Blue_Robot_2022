@@ -49,7 +49,6 @@ struct AxisDescription
 	F32 volatile curent_position;
 	F32 volatile Steps; // number of steps to do
 	F32 ratio_reduc;
-	S32 volatile Offset;
 	Bool Homed; // True if the arm is homed
 };
 
@@ -81,7 +80,6 @@ AxisDescription Axis[4] =
 			0,					  // curent_position
 			0,					  // Steps
 			ratio_reduction_1,	  // ratio_reduc
-			0,					  // Offset
 			false,				  // Homed
 		},
 		{
@@ -95,8 +93,7 @@ AxisDescription Axis[4] =
 			ratio_speed_2,		  // ratio_speed
 			0,					  // curent_position
 			0,					  // Steps
-			ratio_reduction_2,	  // ratio_reduc
-			0,					  // Offset
+			ratio_reduction_2,	  // ratio_reduction
 			false,				  // Homed
 		},
 		{
@@ -111,7 +108,6 @@ AxisDescription Axis[4] =
 			0,					  // curent_position
 			0,					  // Steps
 			ratio_reduction_3,	  // ratio_reduc
-			0,					  // Offset
 			false,				  // Homed
 		}};
 
