@@ -3,24 +3,23 @@
 #include "main_BR.hpp"
 #include "Steppers_BR.hpp"
 
-
 // Functions---
 void setup()
 {
   Timer_activate = false;
 
   // to manipulate manualy the axes befor the first homing we disables the steppmotors
-  pinMode(Robot_Enable1_Pin, OUTPUT); 
+  pinMode(Robot_Enable1_Pin, OUTPUT);
   digitalWrite(Robot_Enable1_Pin, HIGH); // HIGH Level Disable
   pinMode(Robot_Enable2_Pin, OUTPUT);
   digitalWrite(Robot_Enable2_Pin, HIGH);
   pinMode(Robot_Enable3_Pin, OUTPUT);
   digitalWrite(Robot_Enable3_Pin, HIGH);
 
-  pinMode(Robot_Cyl_Up_Pin, OUTPUT); // Cylinder Up Pin as output 
-  pinMode(Robot_Cyl_Down_Pin, OUTPUT);// Cylinder Down Pin as output
-  pinMode(Robot_Vacuum_Pin, OUTPUT);// Vacuum Pin as output
-  pinMode(Robot_Blast_Pin, OUTPUT);// Blast Pin as output
+  pinMode(Robot_Cyl_Up_Pin, OUTPUT);   // Cylinder Up Pin as output
+  pinMode(Robot_Cyl_Down_Pin, OUTPUT); // Cylinder Down Pin as output
+  pinMode(Robot_Vacuum_Pin, OUTPUT);   // Vacuum Pin as output
+  pinMode(Robot_Blast_Pin, OUTPUT);    // Blast Pin as output
 
   vac_Off;   // Vacuum OFF
   blast_Off; // Blast OFF
@@ -35,7 +34,7 @@ void setup()
   while (!SerialUSB)       // Wait for the serial connection to be establised.
   {
   }
-  int myTimeout = 2;// milliseconds
+  int myTimeout = 2;               // milliseconds
   SerialUSB.setTimeout(myTimeout); // set shorter timeout for serial read, default is 1000ms but we don't/want need that long for this application
 }
 
@@ -57,7 +56,7 @@ void loop()
 {
   if (SerialUSB.available())
   {
-    if (Serial_counter > 90 && Serial_counter_use > 0) // 
+    if (Serial_counter > 90 && Serial_counter_use > 0) //
     {
       Serial_counter = 0;
       Serial_counter_use = 0;
@@ -95,7 +94,7 @@ void loop()
   }
 }
 
-void st_run()// run the steppers...
+void st_run() // run the steppers...
 {
   for (U8 k = 1; k < stepperAmount; k++)
   {
@@ -103,14 +102,13 @@ void st_run()// run the steppers...
   }
 }
 
-
 /*
  Reads the collected data in command and separates the data by commas and stores it in the array "data"
  Ex : "MOVE, 30, -40, 0" will be stored in the array "data" as : data[0] = "MOVE", data[1] = "30", data[2] = "-40", data[3] = "0"
 */
 void read_and_extract(String content)
 {
-  // Remove carriage return and line feed 
+  // Remove carriage return and line feed
   content.replace("\r", "");
   content.replace("\n", "");
   for (U8 i = 0; i < 4; i++) // 4 is the maximum number of argument that can be sent in single command separated by commas
@@ -131,7 +129,7 @@ void process_orders(String content):
   MOVE: Moves the robot arm from its current position to that indicated by the next three elements of the data array. The three elements are the X, Y, and W coordinates of the desired position.
   ID: Asks if the robot arm is right- or left-handed. Returns either ROBOTR or ROBOTL.
   HOME: Homes the robot.
-  AIR: Controls the pneumatic system. The next element of the data array is the command to be executed, and the element after that is the duration of the command. 
+  AIR: Controls the pneumatic system. The next element of the data array is the command to be executed, and the element after that is the duration of the command.
   OFFSET: Sets the offsets for the three stepper axes.
   ROFFSET: Reads the current offsets from Flash Memory.
   PROX: Returns the current values of the proximity sensors.
@@ -202,15 +200,15 @@ void process_orders(String content)
     }
   }
   else if (data[0] == "OFFSET") // Sets the offsets for the three stepper axes
-  { 
-    // read the data from data[1] and compare to the MICROSTEP of OFFSET_DRIVER objects Driver[14]
-  for (U8 k = 0; k < 15; k++)
   {
-    if (data[1] == Driver[k].ON_OFF)
+    // read the data from data[1] and compare to the MICROSTEP of OFFSET_DRIVER objects Driver[14]
+    for (U8 k = 0; k < 15; k++)
     {
-      Curent_Offset = k;
+      if (data[1] == Driver[k].ON_OFF)
+      {
+        Curent_Offset = k;
+      }
     }
-  }
     SerialUSB.println("OFFSET," + String(Driver[Curent_Offset].MICROSTEP)); // Return the offset
   }
   else if (data[0] == "ROFFSET") // Reads the current offsets from Flash Memory
@@ -244,7 +242,7 @@ void process_orders(String content)
   }
 }
 
-void Home()
+void Home() // Homes the robot
 {
   digitalWrite(Robot_Enable1_Pin, LOW); // LOW Level = Enable
   digitalWrite(Robot_Enable2_Pin, LOW);
@@ -253,14 +251,14 @@ void Home()
   /*
   In order to make the homing accurate and fast enough, the code does it in two steps.
   Once quickly, then a second time more slowly, with a delay between each homing step.
-  */ 
-  U8 delay_homing[2] = {0, 10};// delay between each homing step in ms
+  */
+  U8 delay_homing[2] = {0, 10}; // delay between each homing step in ms
 
   for (U8 l = 0; l < 2; l++)
   {
     for (U8 k = 1; k < stepperAmount; k++)
     {
-      long initial_homing = 0;                  // Used to Home Stepper at startup
+      long initial_homing = 0;                   // Used to Home Stepper at startup
       pinMode(Axis[k].proxPin, INPUT_PULLUP);    // Set the pin to input ("INPUT_PULLUP" is the mode of the pin, which is to pull the pin high when it is not connected to ground.)
       steppers[k]->setMaxSpeed(General_speed);   // Set Max Speed of Stepper (Slower to get better accuracy)
       steppers[k]->setAcceleration(General_acc); // Set Acceleration of Stepper
@@ -307,17 +305,17 @@ void Home()
 
 void Move(XYWA Target) // Move the robot to the target position
 {
-  F32 angle1;// angle of the first/upper arm
-  F32 angle2;// angle of the second/lower arm
-  F32 angle3;// angle of the 'wrist'
+  F32 angle1; // angle of the first/upper arm
+  F32 angle2; // angle of the second/lower arm
+  F32 angle3; // angle of the 'wrist'
 
-  // We chose to put the origin of the repere at the homing position of the robot 
+  // We chose to put the origin of the repere at the homing position of the robot
   // So we need to compensate with the real origin (on which the equations are based)
   Target.X = Target.X - 16;
   Target.Y = Target.Y + 555;
 
   // We need to calculate the angles of the three stepper motors
-  F32 Q = acos((Target.X * Target.X + Target.Y * Target.Y + L1 * L1 - L2 * L2) / (2 * L1 * sqrt(Target.X * Target.X + Target.Y * Target.Y))); 
+  F32 Q = acos((Target.X * Target.X + Target.Y * Target.Y + L1 * L1 - L2 * L2) / (2 * L1 * sqrt(Target.X * Target.X + Target.Y * Target.Y)));
   F32 S = atan2(Target.Y, Target.X) - Q;
   F32 E = acos((Target.X * Target.X + Target.Y * Target.Y - L1 * L1 - L2 * L2) / (Gamma));
   if (elbowType == -1)
@@ -346,7 +344,7 @@ void Move(XYWA Target) // Move the robot to the target position
   */
 
   // absolute values of the distance between the current position and the target position.
-  Axis[1].Steps = abs(Axis[1].curent_position - angle1); 
+  Axis[1].Steps = abs(Axis[1].curent_position - angle1);
   Axis[2].Steps = abs(Axis[2].curent_position - angle2);
   Axis[3].Steps = abs(Axis[3].curent_position - angle3);
 
@@ -381,16 +379,16 @@ void Move(XYWA Target) // Move the robot to the target position
     steppers[3]->setMaxSpeed(General_speed);
     steppers[3]->setAcceleration(General_acc);
   }
-  
+
   // The code below is used to move the robot to the target position
   // The final target position must be adapted to the reduction ratio of each axis et the offset(microstepping)
   // So to Driver[Curent_Offset].MICROSTEP and Axis[Curent_Offset].ReductionRatio
 
-  steppers[1]->moveTo(((angle1)*Driver[Curent_Offset].MICROSTEP*Axis[1].ratio_reduc) / 360);// move the first axis to the target position
+  steppers[1]->moveTo(((angle1)*Driver[Curent_Offset].MICROSTEP * Axis[1].ratio_reduc) / 360); // move the first axis to the target position
 
-  steppers[2]->moveTo(((angle2)*Driver[Curent_Offset].MICROSTEP*Axis[2].ratio_reduc) / 360);// move the second axis to the target position
+  steppers[2]->moveTo(((angle2)*Driver[Curent_Offset].MICROSTEP * Axis[2].ratio_reduc) / 360); // move the second axis to the target position
 
-  steppers[3]->moveTo(((angle3)*Driver[Curent_Offset].MICROSTEP*Axis[3].ratio_reduc) / 360);// move the third axis to the target position
+  steppers[3]->moveTo(((angle3)*Driver[Curent_Offset].MICROSTEP * Axis[3].ratio_reduc) / 360); // move the third axis to the target position
 
   /* // Just for informations
   for (int k = 1; k < stepperAmount; k++)
@@ -416,7 +414,7 @@ void speed_adapt(int max_mvmnt, int to_adapte_1, int to_adapte_2):
 */
 void speed_adapt(int max_mvmnt, int to_adapte_1, int to_adapte_2)
 {
-  F32 ratio1 = Axis[to_adapte_1].Steps / Axis[max_mvmnt].Steps; 
+  F32 ratio1 = Axis[to_adapte_1].Steps / Axis[max_mvmnt].Steps;
   F32 ratio2 = Axis[to_adapte_2].Steps / Axis[max_mvmnt].Steps;
 
   steppers[max_mvmnt]->setMaxSpeed(Axis[max_mvmnt].ratio_speed * General_speed);   // Set the speed of the axis of maximum movement
