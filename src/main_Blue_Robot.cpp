@@ -248,13 +248,18 @@ void Home()
   digitalWrite(Robot_Enable1_Pin, LOW); // LOW Level = Enable
   digitalWrite(Robot_Enable2_Pin, LOW);
   digitalWrite(Robot_Enable3_Pin, LOW);
-  U8 delay_homing[2] = {0, 10};
+
+  /*
+  In order to make the homing accurate and fast enough, the code does it in two steps.
+  Once quickly, then a second time more slowly, with a delay between each homing step.
+  */ 
+  U8 delay_homing[2] = {0, 10};// delay between each homing step in ms
 
   for (U8 l = 0; l < 2; l++)
   {
     for (U8 k = 1; k < stepperAmount; k++)
     {
-      long initial_homing = -1;                  // Used to Home Stepper at startup
+      long initial_homing = 0;                  // Used to Home Stepper at startup
       pinMode(Axis[k].proxPin, INPUT_PULLUP);    // Set the pin to input ("INPUT_PULLUP" is the mode of the pin, which is to pull the pin high when it is not connected to ground.)
       steppers[k]->setMaxSpeed(General_speed);   // Set Max Speed of Stepper (Slower to get better accuracy)
       steppers[k]->setAcceleration(General_acc); // Set Acceleration of Stepper
@@ -276,7 +281,7 @@ void Home()
       steppers[k]->setCurrentPosition(0);        // Set the current position as zero for now
       steppers[k]->setMaxSpeed(General_speed);   // Set Max Speed of Stepper (Slower to get better accuracy)
       steppers[k]->setAcceleration(General_acc); // Set Acceleration of Stepper
-      initial_homing = 1;
+      initial_homing = 0;
 
       while (!digitalRead(Axis[k].proxPin))
       { // Make the Stepper move CW until the switch is deactivated
@@ -367,7 +372,7 @@ void process_orders(String content):
   MOVE: Moves the robot arm from its current position to that indicated by the next three elements of the data array. The three elements are the X, Y, and W coordinates of the desired position.
   ID: Asks if the robot arm is right- or left-handed. Returns either ROBOTR or ROBOTL.
   HOME: Homes the robot.
-  AIR: Manually controls the pneumatic solenoids. The next element of the data array is the desired state of the solenoids, and the element after that is the time (in seconds) for which the solenoids should remain in that state.
+  AIR: Controls the pneumatic system. The next element of the data array is the command to be executed, and the element after that is the duration of the command. 
   OFFSET: Sets the offsets for the three stepper axes.
   ROFFSET: Reads the current offsets from Flash Memory.
   PROX: Returns the current values of the proximity sensors.
@@ -398,8 +403,6 @@ void process_orders(String content)
     Target.X = atof(char_array[1]);
     Target.Y = atof(char_array[2]);
     Target.W = atof(char_array[3]);
-    // Target.A = 0; // for the moment
-    // Target.H = 0; // for the moment
     Move(Target);
 
     SerialUSB.println("AT" + String(data[1]) + ',' + String(data[2]) + ',' + String(data[3]));
