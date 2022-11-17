@@ -3,13 +3,12 @@
 #include "main_BR.hpp"
 #include "Steppers_BR.hpp"
 
-// Functions---
 void setup()
 {
   Timer_activate = false;
 
   // to manipulate manualy the axes befor the first homing we disables the steppmotors
-  pinMode(Robot_Enable1_Pin, OUTPUT);
+  pinMode(Robot_Enable1_Pin, OUTPUT); // set pin to output
   digitalWrite(Robot_Enable1_Pin, HIGH); // HIGH Level Disable
   pinMode(Robot_Enable2_Pin, OUTPUT);
   digitalWrite(Robot_Enable2_Pin, HIGH);
@@ -39,18 +38,26 @@ void setup()
 }
 
 /*
-  void loop():
-  1. The main loop is checking if there is something to read from the serial port.
-  2. If there is something to read, the code reads the serial port and stores it in a string variable.
-  3. The code checks if the string variable is not empty.
-  4. If the string is not empty, the code processes the string and the counter is increased by one.
-  5. After the code processes the string, the code checks if the timer is activated.
-  6. If the timer is not activated, the code checks if the steppers are in motion.
-  7. If the steppers are not in motion, the code checks if the string variable is not empty.
-  8. If the string variable is not empty, the code processes the string.
-  9. If the steppers are in motion, the code checks if the steppers are still in motion.
-  10. If the steppers are not in motion, the code sets the inMove variable to false.
-  11. If the steppers are in motion, the code sets the inMove variable to true.
+void loop():
+1. First the Arduino reads the serial USB port for any input. If there is input it will store it in a 2D array called Serial_input.
+The Arduino will wait for a new line character ('\n') before storing the line in the array. The Arduino can only store 90 lines in the array.
+Once the array is full it will overwrite the first line in the array if at least one command have been processed.
+
+2. The Arduino will check if the timer is active (if we have to wait before processed any other command), and if the steppers are done moving.
+If the timer is not active and the steppers are done moving, the Arduino will check if there are any lines in the Serial_input array that haven't
+been processed yet. If there are lines in the Serial_input array that haven't been used yet, the Arduino will process them. The Arduino will process
+a line by calling the process_orders function.
+
+3. process_orders will parse the line and call the function that it needs to call.
+
+4. The timer is used to delay the Arduino for a certain number of milliseconds. The timer is started by calling the start_timer function.
+The start_timer function sets the Timer_activate variable to true and sets the pTime variable to the current time.
+In the main loop the Arduino will check if the timer is active and if the current time is greater than the pTime + myTime.
+If the current time is greater than the pTime + myTime, the Arduino will set the Timer_activate variable to false.
+
+5. We run the stepper st_run(); function to move the steppers with the accelstepper library)
+
+6. The Arduino will check if the steppers are done moving. If the steppers are done moving, the Arduino will set the inMove variable to false.
 */
 void loop()
 {
@@ -94,6 +101,7 @@ void loop()
   }
 }
 
+// Functions---
 void st_run() // run the steppers...
 {
   for (U8 k = 1; k < stepperAmount; k++)
@@ -473,8 +481,9 @@ void air_process(String realString)
     blast_On;
     Msg_Air = "AIR B";
   }
-  else if (realString == "O") // Valve & Blast Off
+  else if (realString == "O")
   {
+    // Valve & Blast Off
     vac_Off;
     blast_Off;
     Msg_Air = "AIR O";
