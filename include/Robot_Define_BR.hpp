@@ -1,6 +1,6 @@
 #include <Arduino.h>
-#ifndef _ROBOT_DEFINES_HPP_
-#define _ROBOT_DEFINES_HPP_
+#ifndef _ROBOT_DEFINES_BR_HPP_
+#define _ROBOT_DEFINES_BR_HPP_
 
 #define Robot 1 // 1 is Left-handed, 2 is Right-handed.
 /*

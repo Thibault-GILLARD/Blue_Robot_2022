@@ -1,4 +1,4 @@
-#define _OFFSET_R_HPP_
+#define _OFFSET_BR_HPP_
 
 #include <AccelStepper.h> // AccelStepper library
 #include "USB_device_R.h"
@@ -11,7 +11,6 @@ struct OFFSET_DRIVER
     String ON_OFF;  // Switch position of the driver 0 = ON, 1 =OFF
     U32 MICROSTEP; // Microstepping value
 };
-
 
 OFFSET_DRIVER Driver[14] = {
     // 14 driver microstep position possible

@@ -1,6 +1,6 @@
 #include <Arduino.h>
-#ifndef _PIN_DEFINES_HPP_
-#define _PIN_DEFINES_HPP_
+#ifndef _PIN_DEFINES_BR_HPP_
+#define _PIN_DEFINES_BR_HPP_
 
 
 // Define the pins used for the motors, the proximity sensors and the pneumatics valves.
