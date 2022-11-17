@@ -102,8 +102,8 @@ Each part of the code is strongly explained and commented to allow a quick under
   */
 
   ```
-Also several **flowchats** have been created to describe the different functions of the code. 
-The .drawio files are also available so you can modify or adapt them for your project.
+Also, several **flowcharts** have been created to describe the different functions of the code. 
+The .drawio files are also available, so you can modify or adapt them for your project.
 
 :eyes:  [Blue_Robot_2022/Flow charts/](https://github.com/Thibault-GILLARD/Blue_Robot_2022/tree/develop/Flow%20charts)
 <div align="center">
@@ -120,12 +120,12 @@ The .drawio files are also available so you can modify or adapt them for your pr
 The folder can be used directly on **platformIO**.
 Here are the important files of the source code:
 
-The implementation file is located in the **"src"** folder :
+The implementation file is located in the **"src"** folder:
 - [src](https://github.com/Thibault-GILLARD/Blue_Robot_2022/tree/develop/src)
 
   -[main_Blue_Robot.cpp](https://github.com/Thibault-GILLARD/Blue_Robot_2022/blob/develop/src/main_Blue_Robot.cpp)   
 
-The Header files are located in the **"include"** folder :
+The Header files are located in the **"include"** folder:
 - [include](https://github.com/Thibault-GILLARD/Blue_Robot_2022/tree/develop/include)
 
   -[main_BR.hpp](https://github.com/Thibault-GILLARD/Blue_Robot_2022/blob/develop/include/main_BR.hpp)
@@ -151,9 +151,9 @@ AccelStepper is a library included in the standard Arduino IDE that allows the c
 To better understand how it works you can refer to these [equations](https://www.embedded.com/generate-stepper-motor-speed-profiles-in-real-time/) on which the calculations are based.:gear:
 
 ### Arduino Board
-Originally the project was programmed for a arduino DUE to take advantage of the Native Port (faster) directly connected to the Atmel SAM3X8.
+Originally the project was programmed for an arduino DUE to take advantage of the Native Port (faster) directly connected to the Atmel SAM3X8.
 
-With simple modifications, the program can be adapted to hundreds of Arduino-compatible boards that use a USB-to-serial converter :
+With simple modifications, the program can be adapted to hundreds of Arduino-compatible boards that use a USB-to-serial converter:
 This only requires that the 'SerialUSB' object be replaced with the 'Serial' object. So replace all 'SerialUSB' with 'Serial'.
 
 -Ex :
@@ -170,7 +170,7 @@ This only requires that the 'SerialUSB' object be replaced with the 'Serial' obj
 
 ### Basic Test
 
-You can start the first serial communication using the serial monitor of the arduino IDE, with simple commands like :
+You can start the first serial communication using the serial monitor of the arduino IDE, with simple commands like:
 
 ```text
 PING
@@ -225,7 +225,7 @@ You can find the same test in different languages in [Examples_Tests/Small_Test.
 
 A graphical user interface has been created in python to get to grips with the robot and quickly understand the different functions.
 
-TheGUI is based on the kivy library which you need to add to your environment :
+TheGUI is based on the kivy library which you need to add to your environment:
 * with pip
   ```cmd
   pip install Kivy
