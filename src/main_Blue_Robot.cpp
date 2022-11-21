@@ -63,7 +63,7 @@ void loop()
 {
   if (SerialUSB.available())
   {
-    if (Serial_counter > 90 && Serial_counter_use > 0) //
+    if (Serial_counter > 89 && Serial_counter_use > 0) //
     {
       Serial_counter = 0;
       Serial_counter_use = 0;
