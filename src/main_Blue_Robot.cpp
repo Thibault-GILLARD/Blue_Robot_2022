@@ -71,12 +71,14 @@ void loop()
     Serial_input[Serial_counter][0] = SerialUSB.readStringUntil('\n');
     Serial_counter += 1;
   }
+  
 
   if (!inMove && !Timer_activate)
   {
     if (Serial_input[Serial_counter_use][0] != "")
     {
       process_orders(Serial_input[Serial_counter_use][0]);
+      Serial_input[Serial_counter_use][0] = "";
       Serial_counter_use += 1;
     }
   }
