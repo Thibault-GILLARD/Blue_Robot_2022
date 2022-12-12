@@ -66,7 +66,10 @@ void loop()
     if (Serial_counter > 89 && Serial_counter_use > 0) //
     {
       Serial_counter = 0;
-      Serial_counter_use = 0;
+      if (Serial_counter_use > 89)
+      {
+        Serial_counter_use = 0;
+      }
     }
     Serial_input[Serial_counter][0] = SerialUSB.readStringUntil('\n');
     Serial_counter += 1;
