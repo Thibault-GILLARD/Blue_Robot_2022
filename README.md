@@ -213,9 +213,36 @@ Here is also a small functional test on **python** using the main commands :
       print(RecivedStr)
 
   command = ['PING','HOME','MOVE,-300,-200,0','MOVE,-300,0,0','AIR,D,2000','HOME','AIR,U']
+```
 
-  for element in command:
-      print_out(element)
+Or
+
+```python
+import serial
+import time
+SerialObj = serial.Serial('COM14')
+SerialObj.baudrate = 115200
+SerialObj.bytesize = 8
+SerialObj.parity = serial.PARITY_NONE
+SerialObj.stopbits = 1
+
+def print_out(message):
+    msg = message
+    mdg_str_encode = str(msg).encode()
+    SerialObj.write(mdg_str_encode)
+    #RecivedStr = SerialObj.readline()
+    #print(RecivedStr)
+    #return  RecivedStr
+
+command = ['PING\n','HOME\n','MOVE,-30,-20,0\n','MOVE,-30,0,0\n','AIR,D,2000\n','HOME\n','AIR,U\n']
+
+for element in command:
+    print_out(element)
+
+while True:
+    RecivedStr = SerialObj.readline()
+    print(RecivedStr)
+    time.sleep(1)
   ```
 You can find the same test in different languages in [Examples_Tests/Small_Test.txt](https://github.com/Thibault-GILLARD/Blue_Robot_2022/blob/develop/Examples_Tests/Small_Test.txt).
 
@@ -225,7 +252,7 @@ You can find the same test in different languages in [Examples_Tests/Small_Test.
 
 A graphical user interface has been created in python to get to grips with the robot and quickly understand the different functions.
 
-TheGUI is based on the kivy library which you need to add to your environment:
+The GUI is based on the kivy library which you need to add to your environment:
 * with pip
   ```cmd
   pip install Kivy
