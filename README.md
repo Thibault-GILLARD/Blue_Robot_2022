@@ -252,7 +252,7 @@ You can find the same test in different languages in [Examples_Tests/Small_Test.
 
 A graphical user interface has been created in python to get to grips with the robot and quickly understand the different functions.
 
-TheGUI is based on the kivy library which you need to add to your environment:
+The GUI is based on the kivy library which you need to add to your environment:
 * with pip
   ```cmd
   pip install Kivy
